@@ -35,3 +35,7 @@ body {
 #createInfo {
   display: none;
 }
+#return {
+  display: none;
+  margin: 0;
+}

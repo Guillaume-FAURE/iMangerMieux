@@ -75,9 +75,9 @@ switch ($_SERVER["REQUEST_METHOD"]) {
             $result = mysqli_query($conn, $sql);
 
             if (mysqli_num_rows($result) > 0) {
-                echo "logged in";
+                echo "success";
             } else {
-                echo "error";
+                echo "failure";
             }
         }
 

@@ -18,7 +18,6 @@ function toUser(nom, prenom, date, email, password) {
   guy.password = password;
   return guy;
 }
-
 var list = new Array();
 
 function getUser() {
@@ -30,7 +29,18 @@ function getUser() {
     $("#inputPass").val()
   );
 }
-
+$(document).ready(() => {
+  const btnReturn = document.getElementById("return");
+  const info = document.getElementById("createInfo");
+  const btnCreate = document.getElementById("btnCreate");
+  btnReturn.addEventListener("click", () => {
+    event.preventDefault();
+    info.style.display = "none";
+    btnCreate.innerHTML = "Don't have an acccount";
+    document.getElementById("return").style.display = "none";
+    document.getElementById("btnLogin").style.display = "block";
+  });
+});
 $(document).ready(function () {
   const btnCreate = document.getElementById("btnCreate");
 
@@ -38,9 +48,11 @@ $(document).ready(function () {
     event.preventDefault();
     const info = document.getElementById("createInfo");
     console.log(info.style.display);
-    if (info.style.display === "") {
+    if (info.style.display === "" || info.style.display === "none") {
       info.style.display = "block";
       btnCreate.innerHTML = "Create account";
+      document.getElementById("return").style.display = "block";
+      document.getElementById("btnLogin").style.display = "none";
     } else {
       const user = getUser();
       if (user.email == "" || user.password == "") {
@@ -55,14 +67,15 @@ $(document).ready(function () {
   const btnLogin = document.getElementById("btnLogin");
   btnLogin.addEventListener("click", () => {
     event.preventDefault();
-    console.log(login());
-    if (login()) {
-      console.log("ez");
+    const user = getUser();
+    if (user.email == "" || user.password == "") {
+      alert("Email ou password invalide");
     } else {
-      console.log("pas ez");
+      login();
     }
   });
 });
+
 function login() {
   const user = getUser();
   $.ajax({
@@ -74,11 +87,10 @@ function login() {
       password: user.password,
     },
   }).done(function (data) {
-    if (data === "logged in") {
+    if (data === "success") {
       console.log("logged in");
-      return true;
     } else {
-      return false;
+      console.log("pas logged in");
     }
   });
   // document.location.href = "./journal.html";
@@ -105,16 +117,6 @@ function updateRow(id, index) {
 
   edit = true;
   global = index;
-}
-
-function doublEmail(repeat) {
-  let i = 0;
-  for (i; i < list.length; i++) {
-    if (list[i].Email == repeat) {
-      return true;
-    }
-  }
-  return false;
 }
 
 function postData(person) {
