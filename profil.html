@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <link rel="stylesheet" href="profil.css" />
+        <title>Profil</title>
+    </head>
+    <body>
+        <div class="logoIMangerMieux"></div>
+        <form method="post" id="login" action="" onsubmit="">
+            <div class="column">
+                <h2 class="titleForm">Login Form</h2>
+                <div class="row">
+                    <label for="inputNom" class="label"> Username : </label>
+                    <div class="col-sm-3">
+                        <input
+                            type="text"
+                            class="form-control input"
+                            id="inputNom"
+                            required
+                        />
+                    </div>
+                </div>
+                <div class="row">
+                    <label for="inputPrenom" class="label"> Password : </label>
+                    <div class="col-sm-3">
+                        <input
+                            type="text"
+                            class="form-control input"
+                            id="inputPrenom"
+                            name="name"
+                            required
+                        />
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="buttonWrapper row">
+                    <button type="submit" class="btn btn-primary form-control">
+                        Log in
+                    </button>
+                </div>
+                <div class="buttonWrapper row">
+                    <button type="submit" class="btn btn-primary form-control">
+                        Create an account
+                    </button>
+                </div>
+            </div>
+        </form>
+    </body>
+</html>
