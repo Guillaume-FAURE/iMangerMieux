@@ -11,7 +11,7 @@
   </head>
   <body>
     <div class="logoIMangerMieux"></div>
-    <form method="post" id="addUserForm" action="" >
+    <form method="post" id="addUserForm" action="">
       <div class="column">
         <h2 class="titleForm">Login Form</h2>
         <div class="row">
@@ -37,34 +37,45 @@
             />
           </div>
         </div>
-        <div class="row">
-          <label for="inputNom" class="label">Nom</label>
-          <div class="col-sm-3">
-            <input type="text" class="form-control" id="inputNom" />
+        <div id="createInfo">
+          <div class="row">
+            <label for="inputNom" class="label">Nom</label>
+            <div class="col-sm-3">
+              <input type="text" class="form-control" id="inputNom" />
+            </div>
           </div>
-        </div>
-        <div class="row">
-          <label for="inputPrenom" class="label">Prenom</label>
-          <div class="col-sm-3">
-            <input type="text" class="form-control" id="inputPrenom" />
+          <div class="row">
+            <label for="inputPrenom" class="label">Prenom</label>
+            <div class="col-sm-3">
+              <input type="text" class="form-control" id="inputPrenom" />
+            </div>
           </div>
-        </div>
 
-        <div class="row">
-          <label for="inputDate" class="label">Date de naissance</label>
-          <div class="col-sm-3">
-            <input type="date" class="form-control" id="inputDate" />
+          <div class="row">
+            <label for="inputDate" class="label">Date de naissance</label>
+            <div class="col-sm-3">
+              <input type="date" class="form-control" id="inputDate" />
+            </div>
           </div>
         </div>
       </div>
+
       <div class="row">
         <div class="buttonWrapper row">
-          <button type="submit" id="btnLogin" class="btn btn-primary form-control">
+          <button
+            type="submit"
+            id="btnLogin"
+            class="btn btn-primary form-control"
+          >
             Log in
           </button>
         </div>
         <div class="buttonWrapper row">
-          <button type="submit" id="btnCreate" class="btn btn-primary form-control">
+          <button
+            type="submit"
+            id="btnCreate"
+            class="btn btn-primary form-control"
+          >
             Create an account
           </button>
         </div>

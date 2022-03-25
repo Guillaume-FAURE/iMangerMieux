@@ -45,20 +45,43 @@ function getUser() {
 
 $(document).ready(function () {
   const btnCreate = document.getElementById("btnCreate");
+  getData();
   btnCreate.addEventListener("click", () => {
-    console.log(getUser());
     event.preventDefault();
     const user = getUser();
-    postData(user);
+    console.log(user);
+    if (user.email == "" || user.password == "") {
+      alert("Email ou password invalide");
+    } else {
+      postData(user);
+    }
   });
 });
+$(document).ready(function () {
+  const btnLogin = document.getElementById("btnLogin");
+  btnLogin.addEventListener("click", () => {
+    getData();
+    event.preventDefault();
+    if (login()) {
+      
+    } else {
+      
+    }
+  });
+});
+function login() {
+  getData();
+  const user = getUser();
+  let i = 0;
+  let result = false;
+  for (i; i < list.length; i++) {
+    if (list[i].Email === user.email && list[i].password === user.password) {
+      result = true;
+    }
+  }
+  return result;
+}
 
-// const btnLogin = document.getElementById("btnLogin");
-// btnCreate.addEventListener("click", () => {
-//   event.preventDefault();
-//   var user = getUser();
-//   postData(user);
-// });
 var selectedRowId;
 function updateRow(id, index) {
   selectedRowId = id;
@@ -82,7 +105,7 @@ function updateRow(id, index) {
   global = index;
 }
 
-function double(repeat) {
+function doublEmail(repeat) {
   let i = 0;
   for (i; i < list.length; i++) {
     if (list[i].Email == repeat) {
@@ -93,27 +116,27 @@ function double(repeat) {
 }
 
 function postData(person) {
-  console.log("ok");
-  if (double(person.email) || person.Email == "" || person.password == "") {
-    alert("Invalide");
-  } else {
-    $.ajax({
-      method: "POST",
-      url: "../backend/user.php",
-      data: {
-        type: "create",
-        id: person.id,
-        nom: person.nom,
-        prenom: person.prenom,
-        date: person.date,
-        email: person.email,
-        password: person.password,
-      },
-    }).done(function (data) {
-      getData();
-      // document.location.href = "./journal.html";
-    });
-  }
+  $.ajax({
+    method: "POST",
+    url: "../backend/user.php",
+    data: {
+      type: "create",
+      id: person.id,
+      nom: person.nom,
+      prenom: person.prenom,
+      date: person.date,
+      email: person.email,
+      password: person.password,
+    },
+  }).done(function (data) {
+    getData();
+    if (data == 0) {
+      alert("Mail dejà utilisé");
+    } else {
+      console.log("created successfully");
+    }
+    // document.location.href = "./journal.html";
+  });
 }
 
 function updateData(person) {
@@ -141,7 +164,6 @@ function getData() {
   })
     .then((response) => {
       list = JSON.parse(response);
-      console.log(list);
     })
     .catch(function (error) {
       console.log(error);
