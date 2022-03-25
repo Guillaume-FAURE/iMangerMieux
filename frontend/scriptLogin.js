@@ -21,17 +21,6 @@ function toUser(nom, prenom, date, email, password) {
 
 var list = new Array();
 
-function formattedDate(d = new Date()) {
-  let month = String(d.getMonth() + 1);
-  let day = String(d.getDate());
-  const year = String(d.getFullYear());
-
-  if (month.length < 2) month = "0" + month;
-  if (day.length < 2) day = "0" + day;
-
-  return `${year}-${month}-${day}`;
-}
-
 function getUser() {
   return toUser(
     $("#inputNom").val(),
@@ -44,7 +33,7 @@ function getUser() {
 
 $(document).ready(function () {
   const btnCreate = document.getElementById("btnCreate");
-  getData();
+
   btnCreate.addEventListener("click", () => {
     event.preventDefault();
     const info = document.getElementById("createInfo");
@@ -65,8 +54,8 @@ $(document).ready(function () {
 $(document).ready(function () {
   const btnLogin = document.getElementById("btnLogin");
   btnLogin.addEventListener("click", () => {
-    getData();
     event.preventDefault();
+    console.log(login());
     if (login()) {
       console.log("ez");
     } else {
@@ -75,16 +64,24 @@ $(document).ready(function () {
   });
 });
 function login() {
-  getData();
   const user = getUser();
-  let i = 0;
-  let result = false;
-  for (i; i < list.length; i++) {
-    if (list[i].Email === user.email && list[i].password === user.password) {
-      result = true;
+  $.ajax({
+    method: "POST",
+    url: "../backend/user.php",
+    data: {
+      type: "check",
+      email: user.email,
+      password: user.password,
+    },
+  }).done(function (data) {
+    if (data === "logged in") {
+      console.log("logged in");
+      return true;
+    } else {
+      return false;
     }
-  }
-  return result;
+  });
+  // document.location.href = "./journal.html";
 }
 
 var selectedRowId;
@@ -134,7 +131,6 @@ function postData(person) {
       password: person.password,
     },
   }).done(function (data) {
-    getData();
     if (data == 0) {
       alert("Mail dejà utilisé");
     } else {
@@ -157,9 +153,7 @@ function updateData(person) {
       email: person.email,
       password: person.password,
     },
-  }).done(function (data) {
-    getData();
-  });
+  }).done(function (data) {});
 }
 
 function getData() {
@@ -168,7 +162,7 @@ function getData() {
     url: "../backend/user.php",
   })
     .then((response) => {
-      list = JSON.parse(response);
+      // list = JSON.parse(response);
     })
     .catch(function (error) {
       console.log(error);

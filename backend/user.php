@@ -10,7 +10,7 @@ if ($conn->connect_error) {
 }
 switch ($_SERVER["REQUEST_METHOD"]) {
     case 'GET':
-        $sql = "select * from personne";
+        $sql = "SELECT * FROM personne";
         $result = mysqli_query($conn, $sql);
 
         if (mysqli_num_rows($result) > 0) {
@@ -34,12 +34,13 @@ switch ($_SERVER["REQUEST_METHOD"]) {
         $conn->close();
         break;
     case 'POST':
-        $nom  = $_POST['nom'];
-        $prenom  = $_POST['prenom'];
-        $date  = $_POST['date'];
-        $password = $_POST['password'];
-        $email = $_POST['email'];
+
         if ($_POST['type'] == "update") {
+            $nom  = $_POST['nom'];
+            $prenom  = $_POST['prenom'];
+            $date  = $_POST['date'];
+            $password = $_POST['password'];
+            $email = $_POST['email'];
             $sql = "update personne set nom = '$nom', prenom = '$prenom', date = '$date', personne.like = '$like', rem = '$rem' where personne.id = '$id'";
             if ($conn->query($sql) === TRUE) {
                 echo "Record updated successfully";
@@ -47,7 +48,12 @@ switch ($_SERVER["REQUEST_METHOD"]) {
                 echo "Error: " . $sql . "<br>" . $conn->error;
             }
             $conn->close();
-        } else {
+        } else if ($_POST['type'] == "create") {
+            $nom  = $_POST['nom'];
+            $prenom  = $_POST['prenom'];
+            $date  = $_POST['date'];
+            $password = $_POST['password'];
+            $email = $_POST['email'];
             $check = "select * FROM personne WHERE Email='$email'";
             $result = mysqli_query($conn, $check);
 
@@ -62,6 +68,18 @@ switch ($_SERVER["REQUEST_METHOD"]) {
                 }
             }
             $conn->close();
+        } else if ($_POST['type'] == "check") {
+            $email = $_POST['email'];
+            $password = $_POST['password'];
+            $sql = "SELECT * FROM personne WHERE personne.Email='$email' AND personne.password='$password'";
+            $result = mysqli_query($conn, $sql);
+
+            if (mysqli_num_rows($result) > 0) {
+                echo "logged in";
+            } else {
+                echo "error";
+            }
         }
+
         break;
 }
