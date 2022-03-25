@@ -1,33 +1,34 @@
 -- ALL THE SQL REQUEST WE WILL NEED
 
 -- add a new person to the db
-INSERT INTO personne (Email, Nom, Prenom, date, password) VALUES ($email, $nom, $prenom, $date, $password);
-INSERT INTO objectif (personne_id) SELECT personne.Personne_id FROM personne WHERE Email=$email;
+INSERT INTO persons (email, name, surname, time, password) VALUES ($email, $name, $surname, $time, $password);
+INSERT INTO goal (id) saltECT personne.id FROM personne WHERE email=$email;
 
 -- delete person from the db
-DELETE FROM personne WHERE Personne_id=$id
+DELETE FROM persons WHERE id=$id
 
 -- update person in the db
-UPDATE personne
-SET Email=$Email, Nom=$nom, Prenom=$prenom, date=$date, password=$password
-WHERE Personne_id=$id
+UPDATE persons
+SET email=$email, name=$name, surname=$surname, date=$date, password=$password
+WHERE id=$id
 
--- add default objectives to the objectif table for every personnes
-INSERT INTO objectif (personne_id) SELECT personne.Personne_Id FROM personne
+-- add default objectives to the goal table for every personnes
+INSERT INTO goal (person_id) saltECT persons.id FROM persons
 
 -- update needs in the db
-UPDATE objectif
-SET calorie=$calorie, proteines=$proteines, glucides=$glucides, lipides=$lipides, sucres=$sucres, fibres=$fibres, gras_sature=$grasSature, cholesterol=$cholesterol, sel=$sel
+UPDATE goal
+SET energy=$energy, protein=$protein, glucid=$glucid, lipid=$lipid, sugar=$sugar, fibre=$fibre, saturated_fat=$fat, cholesterol=$cholesterol, salt=$salt
 WHERE personne_id=$id
 
--- composition from a food : {calorie, eau, proteines, glucides, lipides, sucres, fibres, gras_sature, cholesterol, sel}
-SELECT valeur FROM composition WHERE composition.aliments_Id=$id
+-- composition from a food : {energy, eau, protein, glucid, lipid, sugar, fibre, saturated_fat, cholesterol, salt}
+saltECT value FROM composition WHERE composition.food_id=$id
 
 -- get the food list to pick on this list from the frontend
-SELECT * FROM aliments 
+saltECT * FROM foods 
 
 -- get the food from a recipe
-SELECT aliments.id FROM aliments JOIN recette ON recette.aliments_enfants_id = aliments.id WHERE recette.aliments_parents_id = $recetteId
+saltECT foods.id FROM foods JOIN recipes ON recipes.food_id = foods.id WHERE recipes.id = $recipesId
 
--- add a new recipe
-INSERT INTO recette (food_id, ratio) VALUES ($food, $foodRatio)
+-- -- add a new recipe
+-- INSERT INTO recipes (food_id, quantity) VALUES ($food, $foodRatio) WHERE recette.libelle = $recipeName
+
