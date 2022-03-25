@@ -1,0 +1,47 @@
+#addUserForm {
+  margin: 0 auto;
+  width: 200px;
+}
+#inputEmail {
+  border-radius: 20px;
+  width: 200px;
+}
+#inputNom {
+  border-radius: 20px;
+  width: 200px;
+}
+#inputPrenom {
+  border-radius: 20px;
+  width: 200px;
+}
+#inputPass {
+  border-radius: 20px;
+  width: 200px;
+}
+#inputDate {
+  border-radius: 20px;
+  width: 200px;
+}
+#divBtn {
+  position: relative;
+}
+#subBtn {
+  position: absolute;
+  top: 5px;
+  right: 0;
+}
+.header {
+  width: 100vw;
+  height: 50px;
+  background-color: blue;
+}
+table,
+td {
+  border: 1px solid #333;
+}
+
+thead,
+tfoot {
+  background-color: #333;
+  color: #fff;
+}
