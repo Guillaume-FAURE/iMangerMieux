@@ -21,7 +21,6 @@ function toUser(nom, prenom, date, email, password) {
 }
 
 var list = new Array();
-getData();
 
 function formattedDate(d = new Date()) {
   let month = String(d.getMonth() + 1);
@@ -44,44 +43,22 @@ function getUser() {
   );
 }
 
-function onFormSubmit() {
-  event.preventDefault();
-  var user = getUser();
-  if (edit === false) {
-    addRow(user);
-  } else {
-    updateData(user);
-  }
-}
+$(document).ready(function () {
+  const btnCreate = document.getElementById("btnCreate");
+  btnCreate.addEventListener("click", () => {
+    console.log(getUser());
+    event.preventDefault();
+    const user = getUser();
+    postData(user);
+  });
+});
 
-function displayTab() {
-  $("#studentsTableBody tr").remove();
-  for (let i = 0; i < list.length; i++) {
-    $("#studentsTableBody").append(
-      `<tr id="row${i}">
-                      <td id="id${i}">${list[i].Personne_Id}</td>
-                      <td id="email${i}">${list[i].Email} </td>
-                      <td id="nom${i}">${list[i].Nom}</td>
-                      <td id="prenom${i}">${list[i].Prenom}</td>
-                      <td id="date${i}">${list[i].date} </td>   
-                      <td id="pass${i}">${list[i].password} </td>
-                      <td>
-                          <button class="updBtn" onclick="updateRow(${list[i].id}, ${i})">Update</button>
-                          <button class="delBtn" onclick="deleteUser(${list[i].id})">Delete</button>
-                      </td>
-                  </tr>`
-    );
-  }
-}
-
-function addRow(person) {
-  if (person.nom === "" || person.prenom === "") {
-    alert("Nom invalide");
-  } else {
-    postData(person);
-  }
-}
-
+// const btnLogin = document.getElementById("btnLogin");
+// btnCreate.addEventListener("click", () => {
+//   event.preventDefault();
+//   var user = getUser();
+//   postData(user);
+// });
 var selectedRowId;
 function updateRow(id, index) {
   selectedRowId = id;
@@ -105,22 +82,38 @@ function updateRow(id, index) {
   global = index;
 }
 
+function double(repeat) {
+  let i = 0;
+  for (i; i < list.length; i++) {
+    if (list[i].Email == repeat) {
+      return true;
+    }
+  }
+  return false;
+}
+
 function postData(person) {
-  $.ajax({
-    method: "POST",
-    url: "../backend/user.php",
-    data: {
-      type: "create",
-      id: person.id,
-      nom: person.nom,
-      prenom: person.prenom,
-      date: person.date,
-      email: person.email,
-      password: person.password,
-    },
-  }).done(function (data) {
-    getData();
-  });
+  console.log("ok");
+  if (double(person.email) || person.Email == "" || person.password == "") {
+    alert("Invalide");
+  } else {
+    $.ajax({
+      method: "POST",
+      url: "../backend/user.php",
+      data: {
+        type: "create",
+        id: person.id,
+        nom: person.nom,
+        prenom: person.prenom,
+        date: person.date,
+        email: person.email,
+        password: person.password,
+      },
+    }).done(function (data) {
+      getData();
+      // document.location.href = "./journal.html";
+    });
+  }
 }
 
 function updateData(person) {
@@ -138,7 +131,6 @@ function updateData(person) {
     },
   }).done(function (data) {
     getData();
-    edit = false;
   });
 }
 
@@ -150,7 +142,6 @@ function getData() {
     .then((response) => {
       list = JSON.parse(response);
       console.log(list);
-      displayTab();
     })
     .catch(function (error) {
       console.log(error);
