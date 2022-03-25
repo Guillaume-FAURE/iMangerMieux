@@ -8,7 +8,6 @@ $conn = new mysqli($host, $username, $password, $dbname);
 if ($conn->connect_error) {
     die("Connection to database failed: " . $conn->connect_error);
 }
-
 switch ($_SERVER["REQUEST_METHOD"]) {
     case 'GET':
         $sql = "select * from personne";
@@ -35,20 +34,13 @@ switch ($_SERVER["REQUEST_METHOD"]) {
         $conn->close();
         break;
     case 'POST':
+        $nom  = $_POST['nom'];
+        $prenom  = $_POST['prenom'];
+        $date  = $_POST['date'];
+        $password = $_POST['password'];
+        $email = $_POST['email'];
         if ($_POST['type'] == "update") {
-            $nom  = $_POST['nom'];
-            $prenom  = $_POST['prenom'];
-            $date  = $_POST['date'];
-            $id  = $_POST['id'];
-            if ($_POST['like'] == 'true') {
-                $like = 1;
-            } else {
-                $like = 0;
-            }
-            $rem = $_POST['rem'];
-
             $sql = "update personne set nom = '$nom', prenom = '$prenom', date = '$date', personne.like = '$like', rem = '$rem' where personne.id = '$id'";
-
             if ($conn->query($sql) === TRUE) {
                 echo "Record updated successfully";
             } else {
@@ -56,21 +48,19 @@ switch ($_SERVER["REQUEST_METHOD"]) {
             }
             $conn->close();
         } else {
-            $nom  = $_POST['nom'];
-            $prenom  = $_POST['prenom'];
-            $date  = $_POST['date'];
-            $password = $_POST['password'];
-            $email = $_POST['email'];
+            $check = "select * FROM personne WHERE Email='$email'";
+            $result = mysqli_query($conn, $check);
 
-
-            $sql    = "insert into personne (email, nom, prenom, date, password) values ('$email','$nom','$prenom','$date','$password')  ";
-            if ($conn->query($sql) === TRUE) {
-                echo "New record created successfully";
-                $result = 1;
+            if (mysqli_num_rows($result) > 0) {
+                echo 0;
             } else {
-                echo "Error: " . $sql . "<br>" . $conn->error;
+                $sql    = "insert into personne (Email, Nom, Prenom, date, password) values ('$email','$nom','$prenom','$date','$password')  ";
+                if ($conn->query($sql) === TRUE) {
+                    echo "New record created successfully";
+                } else {
+                    echo "Error: " . $sql . "<br>" . $conn->error;
+                }
             }
-
             $conn->close();
         }
         break;
