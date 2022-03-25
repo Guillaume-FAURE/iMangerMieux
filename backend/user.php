@@ -61,17 +61,16 @@ switch ($_SERVER["REQUEST_METHOD"]) {
             $date  = $_POST['date'];
             $password = $_POST['password'];
             $email = $_POST['email'];
-            if (!$nom || !$prenom) {
-                $result = 2;
+
+
+            $sql    = "insert into personne (email, nom, prenom, date, password) values ('$email','$nom','$prenom','$date','$password')  ";
+            if ($conn->query($sql) === TRUE) {
+                echo "New record created successfully";
+                $result = 1;
             } else {
-                $sql    = "insert into personne (email, nom, prenom, date, password) values ('$email','$nom','$prenom','$date','$password')  ";
-                if ($conn->query($sql) === TRUE) {
-                    echo "New record created successfully";
-                    $result = 1;
-                } else {
-                    echo "Error: " . $sql . "<br>" . $conn->error;
-                }
+                echo "Error: " . $sql . "<br>" . $conn->error;
             }
+
             $conn->close();
         }
         break;
