@@ -4,7 +4,6 @@ const user = {
   nom: String,
   prenom: String,
   date: Date,
-
   password: String,
 };
 var global = 0;
@@ -48,12 +47,18 @@ $(document).ready(function () {
   getData();
   btnCreate.addEventListener("click", () => {
     event.preventDefault();
-    const user = getUser();
-    console.log(user);
-    if (user.email == "" || user.password == "") {
-      alert("Email ou password invalide");
+    const info = document.getElementById("createInfo");
+    console.log(info.style.display);
+    if (info.style.display === "") {
+      info.style.display = "block";
+      btnCreate.innerHTML = "Create account";
     } else {
-      postData(user);
+      const user = getUser();
+      if (user.email == "" || user.password == "") {
+        alert("Email ou password invalide");
+      } else {
+        postData(user);
+      }
     }
   });
 });
@@ -63,9 +68,9 @@ $(document).ready(function () {
     getData();
     event.preventDefault();
     if (login()) {
-      
+      console.log("ez");
     } else {
-      
+      console.log("pas ez");
     }
   });
 });
