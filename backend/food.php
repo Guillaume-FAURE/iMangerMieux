@@ -10,7 +10,7 @@ if ($conn->connect_error) {
 }
 switch ($_SERVER["REQUEST_METHOD"]) {
     case 'GET':
-        $sql = "SELECT * FROM personne";
+        $sql = "SELECT * FROM foods";
         $result = mysqli_query($conn, $sql);
 
         if (mysqli_num_rows($result) > 0) {
@@ -49,20 +49,25 @@ switch ($_SERVER["REQUEST_METHOD"]) {
             }
             $conn->close();
         } else if ($_POST['type'] == "create") {
-            $nom  = $_POST['nom'];
-            $prenom  = $_POST['prenom'];
-            $date  = $_POST['date'];
-            $password = $_POST['password'];
-            $email = $_POST['email'];
-            $check = "select * FROM personne WHERE Email='$email'";
+            $name  = $_POST['name'];
+            $energy  = $_POST['energy'];
+            $protein  = $_POST['protein'];
+            $glucid = $_POST['glucid'];
+            $lipid = $_POST['lipid'];
+            $sugar = $_POST['sugar'];
+            $fibre = $_POST['fibre'];
+            $saturatedFat = $_POST['saturatedFat'];
+            $cholesterol = $_POST['cholesterol'];
+            $salt = $_POST['salt'];
+            $check = "SELECT * FROM personne WHERE name='$name'";
             $result = mysqli_query($conn, $check);
 
             if (mysqli_num_rows($result) > 0) {
                 echo 0;
             } else {
-                $sql    = "insert into personne (Email, Nom, Prenom, date, password) values ('$email','$nom','$prenom','$date','$password')  ";
+                $sql    = "INSERT INTO foods (name) values ('$name')  ";
                 if ($conn->query($sql) === TRUE) {
-                    echo "New record created successfully";
+                    echo "Food added successfully";
                 } else {
                     echo "Error: " . $sql . "<br>" . $conn->error;
                 }
@@ -71,16 +76,15 @@ switch ($_SERVER["REQUEST_METHOD"]) {
         } else if ($_POST['type'] == "check") {
             $email = $_POST['email'];
             $password = $_POST['password'];
-            $sql = "SELECT Personne_id FROM personne WHERE personne.Email='$email' AND personne.password='$password'";
+            $sql = "SELECT * FROM personne WHERE personne.Email='$email' AND personne.password='$password'";
             $result = mysqli_query($conn, $sql);
 
             if (mysqli_num_rows($result) > 0) {
-                $row = mysqli_fetch_array($result);
-                echo $row[0];
+                echo "success";
             } else {
                 echo "failure";
             }
         }
 
         break;
-}
+} 
