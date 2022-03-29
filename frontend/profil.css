@@ -4,6 +4,7 @@ body {
   justify-content: center;
   height: 500px;
   font-family: Arial, Helvetica, sans-serif;
+  flex-direction: column;
 }
 #login {
   padding: 30px;
@@ -38,4 +39,16 @@ body {
 #return {
   display: none;
   margin: 0;
+}
+#fail {
+  background-color: rgba(255, 0, 0, 0.5);
+  width: 50vw;
+  height: 10vh;
+  display: none;
+}
+#failText {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
 }

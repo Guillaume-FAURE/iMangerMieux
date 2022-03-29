@@ -71,11 +71,12 @@ switch ($_SERVER["REQUEST_METHOD"]) {
         } else if ($_POST['type'] == "check") {
             $email = $_POST['email'];
             $password = $_POST['password'];
-            $sql = "SELECT * FROM personne WHERE personne.Email='$email' AND personne.password='$password'";
+            $sql = "SELECT Personne_id FROM personne WHERE personne.Email='$email' AND personne.password='$password'";
             $result = mysqli_query($conn, $sql);
 
             if (mysqli_num_rows($result) > 0) {
-                echo "success";
+                $row = mysqli_fetch_array($result);
+                echo $row[0];
             } else {
                 echo "failure";
             }

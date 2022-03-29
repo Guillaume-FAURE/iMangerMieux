@@ -1,12 +1,3 @@
-const user = {
-  id: Number,
-  email: String,
-  nom: String,
-  prenom: String,
-  date: Date,
-  password: String,
-};
-
 function toUser(nom, prenom, date, email, password) {
   return {
     email: email,
@@ -16,7 +7,6 @@ function toUser(nom, prenom, date, email, password) {
     password: password,
   };
 }
-var list = new Array();
 
 function getUser() {
   return toUser(
@@ -55,7 +45,9 @@ $(document).ready(function () {
     } else {
       const user = getUser();
       if (user.email === "" || user.password === "") {
-        alert("Email ou password invalide");
+        document.getElementById("failText").innerHTML =
+          "Email ou mot de passe vide";
+        document.getElementById("fail").style.display = "block";
       } else {
         postData(user);
       }
@@ -69,7 +61,9 @@ $(document).ready(function () {
     event.preventDefault();
     const user = getUser();
     if (user.email === "" || user.password === "") {
-      alert("Email ou password invalide");
+      document.getElementById("failText").innerHTML =
+        "Email ou mot de passe vide";
+      document.getElementById("fail").style.display = "block";
     } else {
       login();
     }
@@ -87,13 +81,16 @@ function login() {
       password: user.password,
     },
   }).done(function (data) {
-    if (data === "success") {
-      console.log("logged in");
+    if (data === "failure") {
+      document.getElementById("failText").innerHTML =
+        "Votre email et mot de passe ne corresponde pas";
+      document.getElementById("fail").style.display = "block";
     } else {
-      console.log("pas logged in");
+      console.log(data);
+      sessionStorage.setItem("id", data);
+      document.location.href = "./journal.html";
     }
   });
-  // document.location.href = "./journal.html";
 }
 
 function postData(person) {
@@ -140,9 +137,7 @@ function getData() {
     method: "GET",
     url: "../backend/user.php",
   })
-    .then((response) => {
-      // list = JSON.parse(response);
-    })
+    .then((response) => {})
     .catch(function (error) {
       console.log(error);
     });
