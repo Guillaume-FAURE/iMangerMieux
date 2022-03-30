@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <link rel="stylesheet" href="food.css" />
+        <link rel="stylesheet" href="global.css" />
+        <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+        <script src="food.js" defer></script>
+        <title>Food Info</title>
+    </head>
+    <body>
+        <div class="logoWrapper row">
+            <img
+                src="./assets/LogoMangerMieux.png"
+                class="logoIMangerMieux"
+                alt="logo"
+            />
+            <h2 class="titleLogo">Manger Mieux</h2>
+        </div>
+        <h2 class="titlePage">Aliments</h2>
+        <div id="researchFoodWrapper" class="column">
+            <form method="post" id="login" action="" onsubmit="">
+                <div class="column">
+                    <div class="row">
+                        <input
+                            type="text"
+                            class="input"
+                            id="inputNameResearch"
+                            placeholder="Recherche d'aliment..."
+                            required
+                        />
+                    </div>
+                    <input type="submit" value="Rechercher" />
+                </div>
+            </form>
+            <button type="button" id="addFood" class="soloButton">
+                Ajouter un nouvel aliment
+            </button>
+        </div>
+        <div id="addFoodWrapper" class="column">
+            <form method="post" id="login" onsubmit="addFood()">
+                <div class="column">
+                    <div class="row">
+                        <label for="inputNom" class="label"> Nom : * </label>
+                        <input
+                            type="text"
+                            class="input"
+                            id="inputNameAdd"
+                            placeholder="Nom de l'aliment..."
+                            required
+                        />
+                    </div>
+                    <div class="row">
+                        <label for="inputEnergie" class="label">
+                            Energie : *
+                        </label>
+                        <input
+                            type="number"
+                            class="input"
+                            id="inputEnergy"
+                            placeholder="Energie pour 100g l'aliment..."
+                            required
+                        />
+                    </div>
+                    <div class="row">
+                        <label for="inputProtein" class="label">
+                            Protéines :
+                        </label>
+                        <input
+                            type="number"
+                            class="input"
+                            id="inputProtein"
+                            placeholder="Protéines..."
+                        />
+                    </div>
+                    <div class="row">
+                        <label for="inputGlucid" class="label">
+                            Glucides :
+                        </label>
+                        <input
+                            type="number"
+                            class="input"
+                            id="inputGlucid"
+                            placeholder="Glucides..."
+                        />
+                    </div>
+                    <div class="row">
+                        <label for="inputLipid" class="label">
+                            Lipides :
+                        </label>
+                        <input
+                            type="number"
+                            class="input"
+                            id="inputLipid"
+                            placeholder="Lipides..."
+                        />
+                    </div>
+                    <div class="row">
+                        <label for="inputSugar" class="label"> Sucres : </label>
+                        <input
+                            type="number"
+                            class="input"
+                            id="inputSugar"
+                            placeholder="Sucres..."
+                        />
+                    </div>
+                    <div class="row">
+                        <label for="inputFibre" class="label"> Fibres : </label>
+                        <input
+                            type="number"
+                            class="input"
+                            id="inputFibre"
+                            placeholder="Fibres..."
+                        />
+                    </div>
+                    <div class="row">
+                        <label for="inputFat" class="label">
+                            Acide gras saturés :
+                        </label>
+                        <input
+                            type="number"
+                            class="input"
+                            id="inputFat"
+                            placeholder="Acide gras saturés..."
+                        />
+                    </div>
+                    <div class="row">
+                        <label for="inputCholesterol" class="label">
+                            Cholestérol :
+                        </label>
+                        <input
+                            type="number"
+                            class="input"
+                            id="inputCholesterol"
+                            placeholder="Cholestérol..."
+                        />
+                    </div>
+                    <div class="row">
+                        <label for="inputSalt" class="label"> Sel : </label>
+                        <input
+                            type="number"
+                            class="input"
+                            id="inputSalt"
+                            placeholder="Sel..."
+                        />
+                    </div>
+                    <input type="submit" value="Ajouter l'aliment" />
+                </div>
+            </form>
+            <button type="button" id="searchFood" class="soloButton">
+                Rechercher un aliment
+            </button>
+        </div>
+        <div id="foodList"></div>
+    </body>
+</html>
