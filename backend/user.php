@@ -55,8 +55,6 @@ switch ($_SERVER["REQUEST_METHOD"]) {
             $email = $_POST['email'];
             $check = "select * FROM persons WHERE email='$email'";
             $result = mysqli_query($conn, $check);
-            echo 'test3';
-            echo $date;
             if (mysqli_num_rows($result) > 0) {
                 echo "double";
             } else {
