@@ -34,7 +34,6 @@ switch ($_SERVER["REQUEST_METHOD"]) {
         $conn->close();
         break;
     case 'POST':
-
         if ($_POST['type'] == "update") {
             $nom  = $_POST['nom'];
             $prenom  = $_POST['prenom'];
@@ -42,7 +41,7 @@ switch ($_SERVER["REQUEST_METHOD"]) {
             $password = $_POST['password'];
             $email = $_POST['email'];
             $sql = "UPDATE persons SET name = '$nom', surname = '$prenom', time = '$date' WHERE persons.id = '$id'";
-            if ($conn->query($sql) === TRUE) {
+            if ($conn->query($sql) == TRUE) {
                 echo "Record updated successfully";
             } else {
                 echo "Error: " . $sql . "<br>" . $conn->error;
@@ -54,14 +53,23 @@ switch ($_SERVER["REQUEST_METHOD"]) {
             $date  = $_POST['date'];
             $password = $_POST['password'];
             $email = $_POST['email'];
-            $check = "SELECT * FROM persons WHERE email='$email'";
+            echo $nom, $prenom, $date, $password, $email;
+            $check = "SELECT * FROM persons WHERE persons.email='$email'";
             $result = mysqli_query($conn, $check);
-
+            echo 'test3';
+            echo $date;
             if (mysqli_num_rows($result) > 0) {
-                echo 0;
+                echo 'Mail deja utilise';
             } else {
-                $sql    = "INSERT INTO persons (email, name, surname, time, password) values ('$email','$nom','$prenom','$date','$password')  ";
-                if ($conn->query($sql) === TRUE) {
+                echo 'mail nouveau';
+                if (!$date) {
+                    $sql    = "INSERT INTO persons (email, name, surname, time, password) values ('$email','$nom','$prenom',null,'$password')  ";
+                }
+                else{
+                    $sql    = "INSERT INTO persons (email, name, surname, time, password) values ('$email','$nom','$prenom','$date','$password')  ";
+                }
+                echo 'sql initialise' . $sql;
+                if ($conn->query($sql) == TRUE) {
                     echo "New record created successfully";
                 } else {
                     echo "Error: " . $sql . "<br>" . $conn->error;
