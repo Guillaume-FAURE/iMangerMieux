@@ -107,10 +107,10 @@ function postData(person) {
       password: person.password,
     },
   }).done(function (data) {
-    if (data === 0) {
+    if (data === "double") {
       alert("Mail dejà utilisé");
     } else {
-      console.log("created successfully");
+      console.log(data);
     }
     // document.location.href = "./journal.html";
   });
