@@ -1,43 +1,22 @@
-function toFood(
-    name,
-    energy,
-    protein,
-    glucid,
-    lipid,
-    sugar,
-    fibre,
-    saturatedFat,
-    cholesterol,
-    salt
-) {
+function getFoodComposition() {
     return {
-        name: name,
-        energy: energy,
-        protein: protein,
-        glucid: glucid,
-        lipid: lipid,
-        sugar: sugar,
-        fibre: fibre,
-        saturatedFat: saturatedFat,
-        cholesterol: cholesterol,
-        salt: salt,
+        name: $("#inputNameAdd").val(),
+        energy: $("#inputEnergy").val(),
+        protein: $("#inputProtein").val(),
+        glucid: $("#inputGlucid").val(),
+        lipid: $("#inputLipid").val(),
+        sugar: $("#inputSugar").val(),
+        fibre: $("#inputFibre").val(),
+        saturatedFat: $("#inputFat").val(),
+        cholesterol: $("#inputCholesterol").val(),
+        salt: $("#inputSalt").val(),
     };
 }
 
-function getFood() {
-    return toFood(
-        $("#inputNameAdd").val(),
-        $("#inputEnergy").val(),
-        $("#inputProtein").val(),
-        $("#inputGlucid").val(),
-        $("#inputLipid").val(),
-        $("#inputSugar").val(),
-        $("#inputFibre").val(),
-        $("#inputFat").val(),
-        $("#inputCholesterol").val(),
-        $("#inputSalt").val()
-    );
+function getFoodSearch() {
+    return $("#inputNameResearch").val();
 }
+
 const btnAddFood = document.getElementById("addFood");
 const btnSearchFood = document.getElementById("searchFood");
 const searchFoodWrapper = document.getElementById("researchFoodWrapper");
@@ -57,7 +36,7 @@ btnSearchFood.addEventListener("click", () => {
 function addFood() {
     event.preventDefault();
     console.log("addfood function initialized");
-    const food = getFood();
+    const food = getFoodComposition();
     console.log(food);
     $.ajax({
         method: "POST",
@@ -85,15 +64,26 @@ function addFood() {
     });
 }
 
-function getData() {
+function getFood() {
+    event.preventDefault();
+    console.log("getFood function initialized");
+    const name = getFoodSearch();
+    console.log(name);
     $.ajax({
-        method: "GET",
+        method: "POST",
         url: "../backend/food.php",
-    })
-        .then((response) => {})
-        .catch(function (error) {
-            console.log(error);
-        });
+        data: {
+            type: "GET",
+            name: name,
+        },
+    }).done(function (data) {
+        console.log(data);
+        if (data === "success") {
+            console.log("data sent");
+        } else {
+            console.log("data not sent");
+        }
+    });
 }
 
 // var selectedRowId;
