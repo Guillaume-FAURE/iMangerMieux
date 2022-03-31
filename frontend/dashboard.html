@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <link rel="stylesheet" href="global.css" />
+        <link rel="stylesheet" href="dashboard.css" />
+        <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+        <script src="dashboard.js" defer></script>
+        <title>Dashboard</title>
+    </head>
+    <body>
+        <div class="logoWrapper row">
+            <img
+                src="./assets/LogoMangerMieux.png"
+                class="logoIMangerMieux"
+                alt="logo"
+            />
+            <h2 class="titleLogo">Manger Mieux</h2>
+        </div>
+        <div class="goalWrapper">
+            <div class="OMSGoal goal column">
+                <h2 class="titleGoal">
+                    Recommandation de VIDAL pour
+                    <span id="gender">un homme</span> de
+                    <span id="weight">75</span>kg et de
+                    <span id="age">30</span>ans
+                </h2>
+                <div class="row apportWrapper">
+                    <h3 class="titleApport">Energie :</h3>
+                    <div><span id="energyOMS"></span> cal/semaine</div>
+                </div>
+                <div class="row apportWrapper">
+                    <h3 class="titleApport">Protéines :</h3>
+                    <div><span id="proteinOMS"></span> g/semaine</div>
+                </div>
+                <div class="row apportWrapper">
+                    <h3 class="titleApport">Glucides :</h3>
+                    <div><span id="glucidOMS"></span> g/semaine</div>
+                </div>
+                <div class="row apportWrapper">
+                    <h3 class="titleApport">dont sucres :</h3>
+                    <div><span id="sugarOMS"></span> g/semaine max</div>
+                </div>
+                <div class="row apportWrapper">
+                    <h3 class="titleApport">Lipides :</h3>
+                    <div><span id="lipidOMS"></span> g/semaine</div>
+                </div>
+                <div class="row apportWrapper">
+                    <h3 class="titleApport">dont gras saturé :</h3>
+                    <div><span id="fatOMS"></span> g/semaine max</div>
+                </div>
+                <div class="row apportWrapper">
+                    <h3 class="titleApport">Fibres :</h3>
+                    <div><span id="fibreOMS"></span> g/semaine</div>
+                </div>
+                <div class="row apportWrapper">
+                    <h3 class="titleApport">Cholestérol :</h3>
+                    <div><span id="cholesterolOMS"></span> mg/semaine max</div>
+                </div>
+                <div class="row apportWrapper">
+                    <h3 class="titleApport">Sel :</h3>
+                    <div><span id="saltOMS"></span> g/semaine max</div>
+                </div>
+            </div>
+            <div class="personnalGoal goal column">
+                <h2 class="titleGoal">Objectif personnel hebdomadaire</h2>
+                <div class="row apportWrapper">
+                    <h3 class="titleApport">Energie :</h3>
+                    <div><span id="energyPerso"></span> cal/semaine</div>
+                </div>
+                <div class="row apportWrapper">
+                    <h3 class="titleApport">Protéines :</h3>
+                    <div><span id="proteinPerso"></span> g/semaine</div>
+                </div>
+                <div class="row apportWrapper">
+                    <h3 class="titleApport">Glucides :</h3>
+                    <div><span id="glucidPerso"></span> g/semaine</div>
+                </div>
+                <div class="row apportWrapper">
+                    <h3 class="titleApport">dont sucres :</h3>
+                    <div><span id="sugarPerso"></span> g/semaine max</div>
+                </div>
+                <div class="row apportWrapper">
+                    <h3 class="titleApport">Lipides :</h3>
+                    <div><span id="lipidPerso"></span> g/semaine</div>
+                </div>
+                <div class="row apportWrapper">
+                    <h3 class="titleApport">dont gras saturé :</h3>
+                    <div><span id="fatPerso"></span> g/semaine max</div>
+                </div>
+                <div class="row apportWrapper">
+                    <h3 class="titleApport">Fibres :</h3>
+                    <div><span id="fibrePerso"></span> g/semaine</div>
+                </div>
+                <div class="row apportWrapper">
+                    <h3 class="titleApport">Cholestérol :</h3>
+                    <div>
+                        <span id="cholesterolPerso"></span> mg/semaine max
+                    </div>
+                </div>
+                <div class="row apportWrapper">
+                    <h3 class="titleApport">Sel :</h3>
+                    <div><span id="saltPerso"></span> g/semaine max</div>
+                </div>
+            </div>
+        </div>
+        <button type="button" id="addGoal" class="soloButton">
+            Changer votre objectif
+        </button>
+        <form method="get" action="./journal.html">
+            <button type="submit" id="addMeal" class="soloButton">
+                Ajouter un repas à votre journal
+            </button>
+        </form>
+        <div class="generalRecommandation column">
+            <h2>Recommandation général de l'OMS</h2>
+            <li class="recommandation">
+                Une alimentation saine aide à se protéger contre un grand type
+                de maladie notamment le diabète, les cardiopathies, les
+                accidents vasculaires cérébraux et le cancer.
+            </li>
+            <li class="recommandation">
+                Une mauvaise alimentation et le manque d'exercice physique sont
+                les principaux risques pour la santé à l'échelle mondiale.
+            </li>
+            <li class="recommandation">
+                Mangez des fruits, des légumes, des légumineuses (par exemple,
+                des lentilles et des pois), des fruits secs et des céréales
+                complètes (par exemple du maïs, du millet, de l'avoine, du blé
+                et du riz brun non transformés).
+            </li>
+            <li class="recommandation">
+                Mangez au moins 400 g (soit 5 portions) de fruits et légumes par
+                jour les pommes de terre, les patates douces, le manioc et les
+                autres racines amylacées ne font pas partie des fruits et des
+                légumes.
+            </li>
+            <li class="recommandation">
+                Mangez moins de 10 % de l'apport énergique total provenant de
+                sucres libres (2,7), soit l'équivalent de 50 g (ou environ 12
+                cuillères à café rases) pour une personne de poids normal
+                consommant environ 2000 calories par jour ; dans l'idéal, pour
+                préserver davantage la santé, cette part devrait être inférieure
+                à 5 % des apports énergiques totaux. Les sucres libres sont
+                ajoutés aux aliments ou aux boissons par le fabricant, le
+                cuisinier ou le consommateur, mais on les retrouve aussi
+                naturellement dans le miel, les sirops, les jus de fruits ou les
+                concentrés de jus de fruits.
+            </li>
+            <li class="recommandation">
+                Mangez moins de 30 % de l'apport énergétique total provenant des
+                matières grasses. Il convient de préférer les graisses
+                insaturées (qu'on trouve dans le poisson, l'avocat et les noix,
+                ainsi que dans les huiles de tournesol, de soja, de colza et
+                d'olive) aux graisses saturées (qu'on trouve dans la viande
+                grasse, le beurre, l'huile de palme et de noix de coco, la
+                crème, le fromage, le beurre clarifié et le saindoux) et aux
+                acides gras trans de toutes sortes. Il existe ainsi des acides
+                gras trans industriels (qu'on trouve dans les aliments cuits au
+                four et frits ainsi que dans les en-cas et dans les aliments
+                préemballés, par exemple les pizzas congelées, les tartes, les
+                cookies, les biscuits, les gaufres ou encore les huiles de
+                cuisson et les pâtes à tartiner), de même que des acides gras
+                trans issus des ruminants (qu'on trouve dans la viande et les
+                produits laitiers provenant des animaux ruminants comme les
+                vaches, les moutons, les chèvres et les chameaux). Il est
+                proposé de réduire l'apport en graisses saturées à moins de 10 %
+                de l'apport énergétique total et celui en acides gras trans à
+                moins de 1 %. Les acides gras trans industriels, en particulier,
+                ne peuvent pas faire partie d'une alimentation saine et
+                devraient en être exclus.
+            </li>
+            <li class="recommandation">
+                Mangez moins de 5 g de sel (soit environ une cuillère à café)
+                par jour , en privilégiant le sel iodé.
+            </li>
+        </div>
+    </body>
+</html>

@@ -1,0 +1,40 @@
+.goalWrapper {
+    width: 70%;
+    margin: 80px 15px 15px 15px;
+    box-shadow: 2px 1px 4px black;
+    min-height: 500px;
+    border-radius: 15px;
+    justify-content: space-evenly;
+    overflow: hidden;
+    display: flex;
+    flex-direction: row;
+}
+.goal {
+    padding: 5px 30px;
+    width: 45%;
+    height: 100%;
+}
+.personnalGoal {
+    background-color: aliceblue;
+}
+.OMSGoal {
+    border-right: 1px solid black;
+}
+.recommandation {
+    width: 60%;
+    margin: 5px;
+}
+.apportWrapper {
+    justify-content: space-between;
+    width: 80%;
+    margin: 5px;
+}
+.titleApport {
+    margin: 5px;
+}
+.titleGoal {
+    text-align: center;
+}
+.generalRecommandation {
+    padding-bottom: 50px;
+}
