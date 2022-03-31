@@ -25,7 +25,11 @@ switch ($_SERVER["REQUEST_METHOD"]) {
         $conn->close();
         break;
     case 'DELETE':
-        $sql = "DELETE FROM personne WHERE id = " . $_GET['id'];
+        // DELETE from eaten WHERE person_id=37 AND food_id=21509 AND TIME='2022-03-31'
+        $id = $_GET['id'];
+        $food_id = $_GET['food'];
+        $date = $_GET['date'];
+        $sql = "DELETE FROM eaten WHERE person_id =  $id  AND food_id = $food_id AND time = '$date'";
         if ($conn->query($sql) === TRUE) {
             echo "success";
         } else {
@@ -75,7 +79,7 @@ switch ($_SERVER["REQUEST_METHOD"]) {
             $conn->close();
         } else if ($_POST['type'] == "eaten") {
             $id = $_POST['id'];
-            $sql = "SELECT food_id,name,eaten.time FROM eaten INNER JOIN foods ON foods.id=eaten.food_id WHERE eaten.person_id='$id'";
+            $sql = "SELECT food_id,name,eaten.time,eaten.quantity FROM eaten INNER JOIN foods ON foods.id=eaten.food_id WHERE eaten.person_id='$id'";
             $result = mysqli_query($conn, $sql);
             if (mysqli_num_rows($result) > 0) {
                 while ($row = mysqli_fetch_assoc($result)) {
@@ -84,6 +88,18 @@ switch ($_SERVER["REQUEST_METHOD"]) {
                 echo json_encode($array_values);
             } else {
                 echo "empty";
+            }
+        } else if ($_POST['type'] == "search") {
+            $name = $_POST['name'];
+            $sql = 'SELECT name FROM foods WHERE name LIKE "%' . $name . '%" LIMIT 5';
+            $result = mysqli_query($conn, $sql);
+            if (mysqli_num_rows($result) > 0) {
+                while ($row = mysqli_fetch_assoc($result)) {
+                    $array_values[] = $row;
+                }
+                echo json_encode($array_values);
+            } else {
+                echo "`ko`";
             }
         }
         break;
