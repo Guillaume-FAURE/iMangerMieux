@@ -54,9 +54,9 @@ $(document).ready(function () {
     });
 });
 
-        <button type="button" id="addMeal" class="soloButton">
-            Ajouter un repas à votre journal
-        </button>;
+<button type="button" id="addMeal" class="soloButton">
+    Ajouter un repas à votre journal
+</button>;
 $(document).ready(function () {
     const btnLogin = document.getElementById("btnLogin");
     btnLogin.addEventListener("click", () => {
@@ -108,7 +108,7 @@ function postData(person) {
         },
     }).done(function (data) {
         console.log("data");
-        if (data === "Mail deja utilise") {
+        if (data === "double") {
             alert("Mail dejà utilisé");
         } else {
             console.log("created successfully");
