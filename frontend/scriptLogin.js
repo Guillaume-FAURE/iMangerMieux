@@ -29,6 +29,8 @@ $(document).ready(() => {
     document.getElementById("return").style.display = "none";
     document.getElementById("btnLogin").style.display = "block";
   });
+
+  
 });
 
 $(document).ready(function () {

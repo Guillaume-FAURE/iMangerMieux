@@ -73,18 +73,18 @@ switch ($_SERVER["REQUEST_METHOD"]) {
                 }
             }
             $conn->close();
-        } else if ($_POST['type'] == "check") {
-            $email = $_POST['email'];
-            $password = $_POST['password'];
-            $sql = "SELECT * FROM personne WHERE personne.Email='$email' AND personne.password='$password'";
+        } else if ($_POST['type'] == "eaten") {
+            $id = $_POST['id'];
+            $sql = "SELECT food_id,name,eaten.time FROM eaten INNER JOIN foods ON foods.id=eaten.food_id WHERE eaten.person_id='$id'";
             $result = mysqli_query($conn, $sql);
-
             if (mysqli_num_rows($result) > 0) {
-                echo "success";
+                while ($row = mysqli_fetch_assoc($result)) {
+                    $array_values[] = $row;
+                }
+                echo json_encode($array_values);
             } else {
-                echo "failure";
+                echo "empty";
             }
         }
-
         break;
-} 
+}

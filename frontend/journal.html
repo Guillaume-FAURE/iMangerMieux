@@ -4,10 +4,25 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="http://code.jquery.com/jquery-3.1.1.min.js" defer></script>
     <script src="./scriptJournal.js" defer></script>
+
     <title>Document</title>
   </head>
   <body>
-    <div>journal</div>
+    <div id="today"></div>
+    <table class="table">
+      <thead>
+        <tr>
+          <th scope="col">Aliments</th>
+          <th scope="col">Date de conso</th>
+          <th scope="col">CRUD</th>
+        </tr>
+      </thead>
+      <tbody id="foodTableBody"></tbody>
+    </table>
+    <div>objectif - consommé = reste</div>
+    <div id="eatenList">liste de bouffe</div>
+    <button id="btnList">List</button>
   </body>
 </html>
