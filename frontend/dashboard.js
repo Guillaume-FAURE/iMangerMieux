@@ -98,5 +98,143 @@ const emptyGoal = {
     cholesterol: undefined,
     salt: undefined,
 };
+document.getElementById("addGoal").addEventListener("click", () => {
+    document.querySelector(".contentDiv").style.opacity = 0.2;
+    document.getElementById("addGoalWrapper").innerHTML = `
+        <div class="addPersonnalGoal goal column">
+            <h2 class="titleGoal">Objectif personnel hebdomadaire</h2>
+            <div class="row apportWrapper">
+                <h3 class="titleApport">Energie :</h3>
+                <div class=" inputMiniWrapper">
+                    <div>
+                        <input type="text" id="inputNewEnergy" /> kcal/semaine
+                    </div>
+                    <div class="recommandationPopup">recommandé ${
+                        document.getElementById("energyOMS").innerHTML
+                    }</div>
+                </div>
+            </div>
+            <div class="row apportWrapper">
+                <h3 class="titleApport">Protéines :</h3>
+                <div class=" inputMiniWrapper">
+                    <div>
+                        <input type="text" id="inputNewProtein" /> g/semaine
+                    </div>
+                    <div class="recommandationPopup">recommandé ${
+                        document.getElementById("proteinOMS").innerHTML
+                    }</div>
+                </div>
+            </div>
+            <div class="row apportWrapper">
+                <h3 class="titleApport">Glucides :</h3>
+                <div class=" inputMiniWrapper">
+                    <div>
+                        <input type="text" id="inputNewGlucid" /> g/semaine
+                    </div>
+                    <div class="recommandationPopup">recommandé ${
+                        document.getElementById("glucidOMS").innerHTML
+                    }</div>
+                </div>
+            </div>
+            <div class="row apportWrapper">
+                <h3 class="titleApport">dont sucres :</h3>
+                <div>
+                    <div class=" inputMiniWrapper">
+                        <div>
+                            <input type="text" id="inputNewSugar" /> g/semaine
+                            max
+                        </div>
+                        <div class="recommandationPopup">recommandé ${
+                            document.getElementById("sugarOMS").innerHTML
+                        }</div>
+                    </div>
+                </div>
+            </div>
+            <div class="row apportWrapper">
+                <h3 class="titleApport">Lipides :</h3>
+                <div class=" inputMiniWrapper">
+                    <div>
+                        <input type="text" id="inputNewLipid" /> g/semaine
+                    </div>
+                    <div class="recommandationPopup">recommandé ${
+                        document.getElementById("lipidOMS").innerHTML
+                    }</div>
+                </div>
+            </div>
+            <div class="row apportWrapper">
+                <h3 class="titleApport">dont gras saturé :</h3>
+                <div class=" inputMiniWrapper">
+                    <div>
+                        <input type="text" id="inputNewFat" /> g/semaine max
+                    </div>
+                    <div class="recommandationPopup">recommandé ${
+                        document.getElementById("fatOMS").innerHTML
+                    }</div>
+                </div>
+            </div>
+            <div class="row apportWrapper">
+                <h3 class="titleApport">Fibres :</h3>
+                <div class=" inputMiniWrapper">
+                    <div>
+                        <input type="text" id="inputNewFibres" /> g/semaine
+                    </div>
+                    <div class="recommandationPopup">recommandé ${
+                        document.getElementById("fibreOMS").innerHTML
+                    }</div>
+                </div>
+            </div>
+            <div class="row apportWrapper">
+                <h3 class="titleApport">Cholestérol :</h3>
+                <div class="inputMiniWrapper">
+                    <div>
+                        <input type="text" id="inputNewCholesterol" /> g/semaine
+                        max
+                    </div>
+                    <div class="recommandationPopup">recommandé ${
+                        document.getElementById("cholesterolOMS").innerHTML
+                    }</div>
+                </div>
+            </div>
+            <div class="row apportWrapper">
+                <h3 class="titleApport">Sel :</h3>
+                <div class=" inputMiniWrapper">
+                    <div>
+                        <input type="text" id="inputNewSalt" /> g/semaine max
+                    </div>
+                    <div class="recommandationPopup">recommandé ${
+                        document.getElementById("saltOMS").innerHTML
+                    }</div>
+                </div>
+            </div>
+            <div class="row buttonPopup">
+                <button type="button" id="confirmGoal" class="soloButton" onclick='updateGoal()'>
+                    Valider votre nouvelle objectif
+                </button>
+                <button type="button" id="cancelGoal" class="soloButton" onClick='cancel()'>
+                    Annuler
+                </button>
+            </div>
+        </div>
+        `;
+});
+function updateGoal() {
+    const goal = {
+        energy: $("#inputNewEnergy").val(),
+        protein: $("#inputNewProtein").val(),
+        glucid: $("#inputNewGlucid").val(),
+        sugar: $("#inputNewSugar").val(),
+        lipid: $("#inputNewLipid").val(),
+        fat: $("#inputNewFat").val(),
+        fibre: $("#inputNewFibres").val(),
+        cholesterol: $("#inputNewCholesterol").val(),
+        salt: $("#inputNewSalt").val(),
+    };
+    console.log(goal);
+}
+
+function cancel() {
+    document.querySelector(".contentDiv").style.opacity = 1;
+    document.getElementById("addGoalWrapper").innerHTML = "";
+}
 apportOMS("homme", 75, 21);
 apportPersonnel(emptyGoal);

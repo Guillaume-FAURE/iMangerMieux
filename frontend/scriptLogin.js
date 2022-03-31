@@ -54,6 +54,9 @@ $(document).ready(function () {
     });
 });
 
+        <button type="button" id="addMeal" class="soloButton">
+            Ajouter un repas à votre journal
+        </button>;
 $(document).ready(function () {
     const btnLogin = document.getElementById("btnLogin");
     btnLogin.addEventListener("click", () => {
