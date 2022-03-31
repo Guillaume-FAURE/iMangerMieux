@@ -1,6 +1,7 @@
 const id = sessionStorage.getItem("id");
 var listAlways = new Array();
 listEaten(today());
+
 function today() {
   var today = new Date();
   var dd = today.getDate();
@@ -34,57 +35,67 @@ function displayList(list) {
   for (let i = 0; i < list.length; i++) {
     $("#foodTableBody").append(
       `<tr id="row${i}">
-                      <td >${list[i].name}</td>
-                      <td >${list[i].quantity}</td>
-                      <td >${list[i].time} </td>
-                      <td>
-                          <button class="delBtn" onclick="deleteRow(${list[i].food_id}, '${list[i].time}')">Delete</button>
-                      </td>
-                  </tr>`
+        <td >${list[i].name}</td>
+        <td id="quantity${i}" >${list[i].quantity}</td>
+        <td >${list[i].time} </td>
+        <td>
+            <button class="delBtn" onclick="deleteRow(${list[i].food_id}, '${list[i].time}')">Delete</button>
+        </td>
+    </tr>`
     );
   }
 }
-function searchOnChange() {
-  const name = $("#inputFood").val();
-  //   $.ajax({
-  //     method: "POST",
-  //     url: "../backend/food.php",
-  //     data: {
-  //       type: "search",
-  //       name: name,
-  //     },
-  //   }).done(function (data) {
-  //     if (data === "ko") {
-  //     } else {
-  //       listAlways = JSON.parse(data);
-  //       displayList(check(date));
-  //     }
-  //   });
-}
-document.getElementById("inputFood").addEventListener("input", () => {
-  const name = $("#inputFood").val();
-  const select = document.getElementById("select");
 
-  $.ajax({
-    method: "POST",
-    url: "../backend/food.php",
-    data: {
-      type: "search",
-      name: name,
-    },
-  }).done(function (data) {
-    if (data === "ko") {
-      console.log("ça ressemble à r");
-    } else {
-      $("#select").empty();
-      const result = JSON.parse(data);
-      for (let i = 0; i < result.length; i++) {
-        console.log(result[i].name);
-        var option = document.createElement("option");
-        option.value = result[i].name;
-        select.appendChild(option);
+$(document).ready(() => {
+  const btnAdd = document.getElementById("btnAdd");
+  btnAdd.addEventListener("click", () => {
+    event.preventDefault();
+    const food = $("#inputFood").val();
+    const number = $("#inputQuantity").val();
+    $.ajax({
+      method: "POST",
+      url: "../backend/food.php",
+      data: {
+        type: "newEaten",
+        id: id,
+        food: food,
+        date: today(),
+        number: number,
+      },
+    }).done(function (data) {
+      if (data === "created") {
+        listEaten(today());
+      } else {
+        const result = JSON.parse(data);
+        console.log(result);
+        // $("#inputQuantity").val(number + result);
       }
-    }
+    });
+  });
+
+  document.getElementById("inputFood").addEventListener("input", () => {
+    const foodName = $("#inputFood").val();
+    const select = document.getElementById("select");
+    $.ajax({
+      method: "POST",
+      url: "../backend/food.php",
+      data: {
+        type: "search",
+        name: foodName,
+      },
+    }).done(function (data) {
+      if (data === "error") {
+        console.log("ça ressemble à r");
+      } else {
+        $("#select").empty();
+        const result = JSON.parse(data);
+        for (let i = 0; i < result.length; i++) {
+          var option = document.createElement("option");
+          option.value = result[i].name;
+          select.appendChild(option);
+        }
+      }
+    });
   });
 });
 
@@ -100,14 +111,14 @@ function listEaten(date) {
     if (data === "empty") {
       $("#foodTableBody").append(
         `<tr>
-                            <td>Vous n'avez rien consommé</td>
-                            <td></td>
-                            <td></td>
-                            <td>
-                                <button class="updBtn">Update</button>
-                                <button class="delBtn">Delete</button>
-                            </td>
-                        </tr>`
+        <td>Vous n'avez rien consommé</td>
+        <td></td>
+        <td></td>
+        <td>
+            <button class="updBtn">Update</button>
+            <button class="delBtn">Delete</button>
+        </td>
+    </tr>`
       );
     } else {
       listAlways = JSON.parse(data);

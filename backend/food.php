@@ -89,6 +89,7 @@ switch ($_SERVER["REQUEST_METHOD"]) {
             } else {
                 echo "empty";
             }
+            $conn->close();
         } else if ($_POST['type'] == "search") {
             $name = $_POST['name'];
             $sql = 'SELECT name FROM foods WHERE name LIKE "%' . $name . '%" LIMIT 5';
@@ -99,8 +100,34 @@ switch ($_SERVER["REQUEST_METHOD"]) {
                 }
                 echo json_encode($array_values);
             } else {
-                echo "`ko`";
+                echo "error";
             }
+            $conn->close();
+        } else if ($_POST['type'] == "newEaten") {
+            $name = $_POST['food'];
+            $id = $_POST['id'];
+            $number = $_POST['number'];
+            $date = $_POST['date'];
+            $sqlId = "SELECT id FROM foods WHERE foods.name='$name'";
+            $res = mysqli_query($conn, $sqlId);
+            if (mysqli_num_rows($res) > 0) {
+                $row = mysqli_fetch_array($res);
+                $food_id = $row[0];
+            }
+            $sqlCheck = "SELECT * FROM eaten WHERE eaten.person_id='$id' AND eaten.food_id='$food_id' AND eaten.time='$date'";
+            $resultCheck = mysqli_query($conn, $sqlCheck);
+
+            if (mysqli_num_rows($resultCheck) > 0) {
+                echo json_encode($number);
+            } else {
+                $sql = "INSERT INTO eaten (person_id, food_id, quantity, time) 
+                    VALUES ('$id', '$food_id', '$number', '$date')";
+                if ($conn->query($sql) === TRUE) {
+                    echo "created";
+                }
+            }
+
+            $conn->close();
+            break;
         }
-        break;
 }
