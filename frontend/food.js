@@ -58,6 +58,7 @@ function addFood() {
     event.preventDefault();
     console.log("addfood function initialized");
     const food = getFood();
+    console.log(food);
     $.ajax({
         method: "POST",
         url: "../backend/food.php",
@@ -75,6 +76,7 @@ function addFood() {
             salt: food.salt,
         },
     }).done(function (data) {
+        console.log(data);
         if (data === "success") {
             console.log("data sent");
         } else {

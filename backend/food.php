@@ -25,11 +25,7 @@ switch ($_SERVER["REQUEST_METHOD"]) {
         $conn->close();
         break;
     case 'DELETE':
-        // DELETE from eaten WHERE person_id=37 AND food_id=21509 AND TIME='2022-03-31'
-        $id = $_GET['id'];
-        $food_id = $_GET['food'];
-        $date = $_GET['date'];
-        $sql = "DELETE FROM eaten WHERE person_id =  $id  AND food_id = $food_id AND time = '$date'";
+        $sql = "DELETE FROM foods WHERE id = " . $_GET['id'];
         if ($conn->query($sql) === TRUE) {
             echo "success";
         } else {
@@ -38,7 +34,7 @@ switch ($_SERVER["REQUEST_METHOD"]) {
         $conn->close();
         break;
     case 'POST':
-
+        echo nl2br("Requete post food \n");
         if ($_POST['type'] == "update") {
             $nom  = $_POST['nom'];
             $prenom  = $_POST['prenom'];
@@ -51,7 +47,8 @@ switch ($_SERVER["REQUEST_METHOD"]) {
             } else {
                 echo "Error: " . $sql . "<br>" . $conn->error;
             }
-        } else if ($_POST['type'] == "create") {
+            $conn->close();
+        } else if ($_POST['type'] === "create") {
             $name  = $_POST['name'];
             $energy  = $_POST['energy'];
             $protein  = $_POST['protein'];
@@ -62,18 +59,24 @@ switch ($_SERVER["REQUEST_METHOD"]) {
             $saturatedFat = $_POST['saturatedFat'];
             $cholesterol = $_POST['cholesterol'];
             $salt = $_POST['salt'];
-            $check = "SELECT * FROM personne WHERE name='$name'";
-            $result = mysqli_query($conn, $check);
-
+            $check = "SELECT * FROM foods WHERE name='$name'";
+            $result = mysqli_query($check, $conn);
+            echo 'result ' . $result;
             if (mysqli_num_rows($result) > 0) {
                 echo 0;
             } else {
-                $sql    = "INSERT INTO foods (name) values ('$name')  ";
-                if ($conn->query($sql) === TRUE) {
-                    echo "Food added successfully";
+                echo nl2br("Create food into foods table \n");
+                $addFoodSql    = "INSERT INTO foods (name) values ('$name')  ";
+                if ($conn->query($addFoodSql) == TRUE) {
+                    echo nl2br("Food added successfully \n");
+                    $getIdFood = "SELECT id FROM foods WHERE name='$name'";
+                    echo $getIdFood;
+                    $food_id=mysqli_query($getIdFood, $conn);
+                    echo $food_id;
                 } else {
                     echo "Error: " . $sql . "<br>" . $conn->error;
                 }
+                $addCompositionSql = "INSERT INTO composition (food_id, nutrient_id,value) values ('$food_id', '$id_nutrient','$value_nutrient')";
             }
         } else if ($_POST['type'] == "eaten") {
             $id = $_POST['id'];
@@ -131,7 +134,7 @@ switch ($_SERVER["REQUEST_METHOD"]) {
                     VALUES ('$id', '$food_id', '$number', '$date')";
                 if ($conn->query($sql) === TRUE) {
                     echo "created";
-                }
+                }there will be a short info session over Zoom about how to plan and select courses. Please note that the info session is focused on course selection, and not for que
             }
         }
         $conn->close();
