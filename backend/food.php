@@ -59,24 +59,41 @@ switch ($_SERVER["REQUEST_METHOD"]) {
             $saturatedFat = $_POST['saturatedFat'];
             $cholesterol = $_POST['cholesterol'];
             $salt = $_POST['salt'];
+            $nutrients = [$energy,$protein,$glucid,$lipid,$sugar,$fibre,$saturatedFat,$cholesterol,$salt];
+            for ($i=0;$i< sizeof($nutrients);$i++){
+                echo nl2br('nutrients' . $nutrients[$i]);
+                if (!$nutrients[$i]){
+                    $nutrients[$i]=0;
+                }
+            }
+            echo $nutrients;
             $check = "SELECT * FROM foods WHERE name='$name'";
-            $result = mysqli_query($check, $conn);
-            echo 'result ' . $result;
+            $result = mysqli_query($conn, $check);
             if (mysqli_num_rows($result) > 0) {
-                echo 0;
+                echo mysqli_fetch_array($result)[0];
             } else {
                 echo nl2br("Create food into foods table \n");
                 $addFoodSql    = "INSERT INTO foods (name) values ('$name')  ";
                 if ($conn->query($addFoodSql) == TRUE) {
                     echo nl2br("Food added successfully \n");
                     $getIdFood = "SELECT id FROM foods WHERE name='$name'";
-                    echo $getIdFood;
-                    $food_id=mysqli_query($getIdFood, $conn);
+                    $food_id=mysqli_fetch_array(mysqli_query($conn, $getIdFood))[0];
                     echo $food_id;
+                    $indexNutrient = [5,8,9,10,11,12,13,14,15];
+                    for($i=0;$i< sizeof($indexNutrient);$i++){
+                        echo $i;
+                        $addCompositionSql = "INSERT INTO composition (food_id, nutrient_id,value) values ($food_id, $indexNutrient[$i],$nutrients[$i])";
+                        echo $addCompositionSql;
+                        if ($conn->query($addCompositionSql) == TRUE){
+                            echo nl2br("Composition added successfully \n");
+                        }
+                        else {
+                            echo "Error: " . $sql . "<br>" . $conn->error;
+                        }
+                    }
                 } else {
                     echo "Error: " . $sql . "<br>" . $conn->error;
                 }
-                $addCompositionSql = "INSERT INTO composition (food_id, nutrient_id,value) values ('$food_id', '$id_nutrient','$value_nutrient')";
             }
         } else if ($_POST['type'] == "eaten") {
             $id = $_POST['id'];
