@@ -10,8 +10,7 @@ if ($conn->connect_error) {
 }
 switch ($_SERVER["REQUEST_METHOD"]) {
     case 'GET':
-        $name = $_GET('name');
-        $sql = "SELECT * FROM foods WHERE name='$name'";
+        $sql = "SELECT * FROM foods";
         $result = mysqli_query($conn, $sql);
         if (mysqli_num_rows($result) > 0) {
             while ($row = mysqli_fetch_assoc($result)) {
