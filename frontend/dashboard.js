@@ -114,15 +114,14 @@ document.getElementById("addGoal").addEventListener("click", () => {
             </div>
             <div class="row apportWrapper">
                 <h3 class="titleApport">dont sucres :</h3>
-                <div>
-                    <div class=" inputMiniWrapper">
-                        <div>
-                            <input type="text" id="inputNewSugar" /> g/semaine
-                            max
-                        </div>
-                        <div class="recommandationPopup">recommandé ${
-                            document.getElementById("sugarOMS").innerHTML
-                        }</div>
+                <div class=" inputMiniWrapper">
+                    <div>
+                        <input type="text" id="inputNewSugar" /> g/semaine
+                        max
+                    </div>
+                    <div class="recommandationPopup">recommandé ${
+                        document.getElementById("sugarOMS").innerHTML
+                    }
                     </div>
                 </div>
             </div>
@@ -212,7 +211,6 @@ function updateGoal() {
             ? (goal[key] = document.getElementById(`${key}Perso`).innerHTML)
             : value;
     }
-    console.log(goal);
     $.ajax({
         method: "POST",
         url: "../backend/goal.php",
@@ -229,9 +227,7 @@ function updateGoal() {
             cholesterol: goal.cholesterol,
             salt: goal.salt,
         },
-    }).done(function (data) {
-        console.log(data);
-        console.log("data sent");
+    }).done(() => {
         location.reload();
     });
 }

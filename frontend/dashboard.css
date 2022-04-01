@@ -2,7 +2,7 @@
     width: 90%;
     margin: 80px 15px 15px 15px;
     box-shadow: 2px 1px 4px black;
-    min-height: 500px;
+    min-height: 540px;
     border-radius: 15px;
     justify-content: space-evenly;
     overflow: hidden;
@@ -49,13 +49,14 @@
 }
 .addPersonnalGoal {
     display: flex;
-    top: 5%;
-    left: 29%;
-    width: 500px;
-    height: 550px;
+    top: 10%;
+    left: 15%;
+    width: 70%;
+    height: 70%;
     box-shadow: 2px 1px 4px black;
     background-color: white;
     border-radius: 15px;
+    font-size: 20px;
     position: fixed;
     opacity: 1;
 }
@@ -68,14 +69,15 @@
     margin: 10px;
 }
 input {
-    width: 80px;
+    width: 180px;
+    font-size: 20px;
     margin: 0px;
 }
 .recommandationPopup {
-    font-size: 13px;
+    font-size: 16px;
 }
 .inputMiniWrapper {
-    width: 220px;
+    width: 45%;
     justify-content: left;
 }
 th {
