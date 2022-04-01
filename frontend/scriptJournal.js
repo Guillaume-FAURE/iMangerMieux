@@ -1,7 +1,11 @@
 const id = sessionStorage.getItem("id");
 var listAlways = new Array();
-listEaten(today());
-
+var date;
+var date = new Date();
+date = today();
+console.log(Date(Date.parse(date)));
+listEaten(date);
+$("#inputDate").val(today());
 function today() {
   var today = new Date();
   var dd = today.getDate();
@@ -16,8 +20,7 @@ function today() {
   today = yyyy + "-" + mm + "-" + dd;
   return today;
 }
-document.getElementById("today").innerHTML = today();
-check(today());
+
 function check(date) {
   var listDate = new Array();
   let i = 0;
@@ -30,6 +33,7 @@ function check(date) {
   }
   return listDate;
 }
+
 function displayList(list) {
   $("#foodTableBody tr").remove();
   for (let i = 0; i < list.length; i++) {
@@ -45,9 +49,42 @@ function displayList(list) {
     );
   }
 }
-
+function changeDay(date, day) {
+  var newDate =new Date(Date.parse(date));
+  var dd = newDate.getDate() + day;
+  var mm = newDate.getMonth() + 1;
+  var yyyy = newDate.getFullYear();
+  if (dd < 10) {
+    dd = "0" + dd;
+  }
+  if (mm < 10) {
+    mm = "0" + mm;
+  }
+  date = yyyy + "-" + mm + "-" + dd;
+}
 $(document).ready(() => {
+  const inputDate = document.getElementById("inputDate");
+  const upArrow = document.getElementById("up");
+  const downArrow = document.getElementById("down");
   const btnAdd = document.getElementById("btnAdd");
+  const inputFood = document.getElementById("inputFood");
+  inputDate.addEventListener("change", () => {
+    date = $("#inputDate").val();
+    console.log(date);
+    listEaten(date);
+  });
+
+  upArrow.addEventListener("click", () => {
+    changeDay(date, 1);
+    listEaten(date);
+    $("#inputDate").val(date);
+  });
+  downArrow.addEventListener("click", () => {
+    changeDay(-1);
+    listEaten(date);
+    $("#inputDate").val(date);
+  });
+
   btnAdd.addEventListener("click", () => {
     event.preventDefault();
     const food = $("#inputFood").val();
@@ -59,19 +96,19 @@ $(document).ready(() => {
         type: "newEaten",
         id: id,
         food: food,
-        date: today(),
+        date: date,
         number: number,
       },
     }).done(function (data) {
       if (data === "created" || data === "updated") {
-        listEaten(today());
+        listEaten(date);
       } else {
         alert("error during the creation in the tab eaten");
       }
     });
   });
 
-  document.getElementById("inputFood").addEventListener("input", () => {
+  inputFood.addEventListener("input", () => {
     const foodName = $("#inputFood").val();
     const select = document.getElementById("select");
     $.ajax({
@@ -133,7 +170,7 @@ function deleteRow(foodId, date) {
   })
     .done((response) => {
       if (response === "success") {
-        listEaten(today());
+        listEaten(date);
       }
     })
     .catch(function (error) {
