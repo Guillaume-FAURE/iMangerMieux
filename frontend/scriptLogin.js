@@ -54,9 +54,6 @@ $(document).ready(function () {
     });
 });
 
-<button type="button" id="addMeal" class="soloButton">
-    Ajouter un repas à votre journal
-</button>;
 $(document).ready(function () {
     const btnLogin = document.getElementById("btnLogin");
     btnLogin.addEventListener("click", () => {
@@ -89,7 +86,7 @@ function login() {
             document.getElementById("fail").style.display = "block";
         } else {
             sessionStorage.setItem("id", data);
-            document.location.href = "./journal.html";
+            document.location.href = "./dashboard.html";
         }
     });
 }
@@ -112,7 +109,7 @@ function postData(person) {
             alert("Mail dejà utilisé");
         } else {
             sessionStorage.setItem("id", data);
-            document.location.href = "./journal.html";
+            document.location.href = "./dashboard.html";
         }
     });
 }
@@ -156,4 +153,3 @@ function deleteUser(id) {
             console.log(error);
         });
 }
-m;

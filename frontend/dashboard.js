@@ -232,6 +232,11 @@ function updateGoal() {
         cholesterol: $("#inputNewCholesterol").val(),
         salt: $("#inputNewSalt").val(),
     };
+    for (const [key, value] of Object.entries(goal)) {
+        !value
+            ? (goal[key] = document.getElementById(`${key}Perso`).innerHTML)
+            : value;
+    }
     console.log(goal);
     $.ajax({
         method: "POST",
@@ -244,7 +249,7 @@ function updateGoal() {
             lipid: goal.lipid,
             sugar: goal.sugar,
             fibre: goal.fibre,
-            saturatedFat: goal.saturatedFat,
+            saturatedFat: goal.fat,
             cholesterol: goal.cholesterol,
             salt: goal.salt,
         },
