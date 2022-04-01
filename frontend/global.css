@@ -1,44 +1,44 @@
 body {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    height: 500px;
-    font-family: Arial, Helvetica, sans-serif;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  height: 500px;
+  font-family: Arial, Helvetica, sans-serif;
 }
 .logoWrapper {
-    position: absolute;
-    left: 30px;
-    top: 10px;
+  position: absolute;
+  left: 30px;
+  top: 10px;
 }
 .logoIMangerMieux {
-    width: 75px;
-    height: 67px;
+  width: 75px;
+  height: 67px;
 }
 .titleLogo {
-    margin: 15px;
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
-        Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
-    text-decoration: underline green;
-    text-underline-offset: 6px;
+  margin: 15px;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
+    Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+  text-decoration: underline green;
+  text-underline-offset: 6px;
 }
 .column {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
 .row {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: center;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
 }
 .titleForm {
-    margin: 5px;
+  margin: 5px;
 }
 .input {
-    margin: 5px;
+  margin: 5px;
 }
 .soloButton {
-    margin: 10px;
+  margin: 10px;
 }

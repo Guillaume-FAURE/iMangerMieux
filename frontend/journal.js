@@ -52,11 +52,22 @@ function displayList(list) {
 }
 
 $(document).ready(() => {
+  const returnBtn = document.getElementById("return");
   const inputDate = document.getElementById("inputDate");
   const upArrow = document.getElementById("up");
   const downArrow = document.getElementById("down");
   const btnAdd = document.getElementById("btnAdd");
   const inputFood = document.getElementById("inputFood");
+  const addFood = document.getElementById("addFood");
+  returnBtn.addEventListener("click", () => {
+    addFoodForm.style.display = "none";
+  });
+
+  addFood.addEventListener("click", () => {
+    document.getElementById("addFoodForm").style.display = "block";
+    addFood.style.display = "none";
+    addFood.style.display = "block";
+  });
   inputDate.addEventListener("change", () => {
     date = $("#inputDate").val();
     console.log(date);
@@ -131,7 +142,13 @@ $(document).ready(() => {
   btnAdd.addEventListener("click", () => {
     event.preventDefault();
     const food = $("#inputFood").val();
-    const number = $("#inputQuantity").val();
+    let number = $("#inputQuantity").val();
+    if (food === "") {
+      alert("Entrez un repas");
+    }
+    if (number === "") {
+      number = "1";
+    }
     $.ajax({
       method: "POST",
       url: "../backend/food.php",
@@ -146,6 +163,7 @@ $(document).ready(() => {
       if (data === "created" || data === "updated") {
         listEaten(date);
       } else {
+        console.log(data);
         alert("error during the creation in the tab eaten");
       }
     });

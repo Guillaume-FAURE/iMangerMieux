@@ -51,7 +51,6 @@ switch ($_SERVER["REQUEST_METHOD"]) {
             } else {
                 echo "Error: " . $sql . "<br>" . $conn->error;
             }
-            $conn->close();
         } else if ($_POST['type'] == "create") {
             $name  = $_POST['name'];
             $energy  = $_POST['energy'];
@@ -76,7 +75,6 @@ switch ($_SERVER["REQUEST_METHOD"]) {
                     echo "Error: " . $sql . "<br>" . $conn->error;
                 }
             }
-            $conn->close();
         } else if ($_POST['type'] == "eaten") {
             $id = $_POST['id'];
             $sql = "SELECT food_id,name,eaten.time,eaten.quantity FROM eaten INNER JOIN foods ON foods.id=eaten.food_id WHERE eaten.person_id='$id'";
@@ -89,7 +87,6 @@ switch ($_SERVER["REQUEST_METHOD"]) {
             } else {
                 echo "empty";
             }
-            $conn->close();
         } else if ($_POST['type'] == "search") {
             $name = $_POST['name'];
             $sql = 'SELECT name FROM foods WHERE name LIKE "%' . $name . '%" LIMIT 5';
@@ -102,7 +99,7 @@ switch ($_SERVER["REQUEST_METHOD"]) {
             } else {
                 echo "error";
             }
-            $conn->close();
+
         } else if ($_POST['type'] == "newEaten") {
             $name = $_POST['food'];
             $id = $_POST['id'];
@@ -136,8 +133,7 @@ switch ($_SERVER["REQUEST_METHOD"]) {
                     echo "created";
                 }
             }
-
-            $conn->close();
-            break;
         }
+        $conn->close();
+        break;
 }

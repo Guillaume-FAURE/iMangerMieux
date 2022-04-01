@@ -5,7 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <script src="http://code.jquery.com/jquery-3.1.1.min.js" defer></script>
-    <script src="./scriptJournal.js" defer></script>
+    <script src="./journal.js" defer></script>
     <link rel="stylesheet" href="global.css" />
     <link rel="stylesheet" href="journal.css" />
 
@@ -13,13 +13,10 @@
   </head>
   <body>
     <div id="date">
+      <button id="down">Précédent</button>
       <input type="date" id="inputDate"></input>
-      <div>
-        <button id="up">up</button>
-        <button id="down">down</button>
-      </div>
+      <button id="up">Suivant</button>
     </div>
-    
     <div>objectif - consommé = reste</div>
     <div id="tableWrapper">
       <table class="table">
@@ -34,7 +31,7 @@
       <tbody id="foodTableBody"></tbody>
     </table>
   </div>
-    
+    <button id="addFood">Ajouter un repas</button>
     <form method="post" id="addFoodForm" action="">
       <div class="column">
         <h2>Qu'avez vous mangé ?</h2>
@@ -60,7 +57,8 @@
           <label for="inputQuantity" class="label"> Quantité : </label>
           <div>
             <input
-              type="text"
+              type="number"
+              min="0"
               class="form-control input"
               id="inputQuantity"
               required
@@ -70,12 +68,8 @@
       </div>
 
       <div id="btnWrap" class="row">
-        <div class="buttonWrapper row">
-          <button type="submit" id="btnAdd">Ajouter</button>
-        </div>
-        <div class="buttonWrapper row">
-          <button type="submit" id="return">Annuler</button>
-        </div>
+          <button type="button" id="btnAdd">Ajouter</button>
+          <button type="button" id="return">Annuler</button>
       </div>
     </form>
   </body>
