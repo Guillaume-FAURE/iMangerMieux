@@ -77,7 +77,8 @@ switch ($_SERVER["REQUEST_METHOD"]) {
             }
         } else if ($_POST['type'] == "eaten") {
             $id = $_POST['id'];
-            $sql = "SELECT food_id,name,eaten.time,eaten.quantity FROM eaten INNER JOIN foods ON foods.id=eaten.food_id WHERE eaten.person_id='$id'";
+            $date = $_POST['date'];
+            $sql = "SELECT food_id,name,eaten.time,eaten.quantity FROM eaten INNER JOIN foods ON foods.id=eaten.food_id WHERE eaten.person_id='$id' AND time='$date'";
             $result = mysqli_query($conn, $sql);
             if (mysqli_num_rows($result) > 0) {
                 while ($row = mysqli_fetch_assoc($result)) {
@@ -99,7 +100,6 @@ switch ($_SERVER["REQUEST_METHOD"]) {
             } else {
                 echo "error";
             }
-
         } else if ($_POST['type'] == "newEaten") {
             $name = $_POST['food'];
             $id = $_POST['id'];

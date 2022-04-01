@@ -7,19 +7,21 @@ date = today();
 listEaten(date);
 $("#inputDate").val(today());
 
-function today() {
-  let today = new Date();
-  let dd = today.getDate();
-  let mm = today.getMonth() + 1;
-  let yyyy = today.getFullYear();
+function dateToString(date) {
+  let dd = date.getDate();
+  let mm = date.getMonth() + 1;
+  let yyyy = date.getFullYear();
   if (dd < 10) {
     dd = "0" + dd;
   }
   if (mm < 10) {
     mm = "0" + mm;
   }
-  today = yyyy + "-" + mm + "-" + dd;
-  return today;
+  return `${yyyy}-${mm}-${dd}`;
+}
+
+function today() {
+  return dateToString(new Date());
 }
 
 function check(date) {
@@ -61,12 +63,12 @@ $(document).ready(() => {
   const addFood = document.getElementById("addFood");
   returnBtn.addEventListener("click", () => {
     addFoodForm.style.display = "none";
+    addFood.style.display = "block";
   });
 
   addFood.addEventListener("click", () => {
     document.getElementById("addFoodForm").style.display = "block";
     addFood.style.display = "none";
-    addFood.style.display = "block";
   });
   inputDate.addEventListener("change", () => {
     date = $("#inputDate").val();
@@ -75,66 +77,16 @@ $(document).ready(() => {
   });
 
   upArrow.addEventListener("click", () => {
-    let yyyy = parseInt(date.split("-")[0]);
-    let mm = parseInt(date.split("-")[1]);
-    let dd = parseInt(date.split("-")[2]);
-    //List of the month with 30 days
-    let month30 = [4, 6, 9, 11];
-    //List of month with 31 days
-    let month31 = [1, 3, 5, 7, 8, 10, 12];
-    if (dd == 30 && month30.includes(mm)) {
-      mm += 1;
-      dd = 1;
-    } else if (dd === 31 && month31.includes(mm)) {
-      mm += 1;
-      dd = 1;
-    } else if (dd === 29 && mm === 2 && yyyy % 4 === 0) {
-      mm += 1;
-      dd = 1;
-    } else if (dd === 28 && mm === 2 && yyyy % 4 !== 0) {
-      mm += 1;
-      dd = 1;
-    } else {
-      dd += 1;
-    }
-    if (dd < 10) {
-      dd = "0" + dd;
-    }
-    if (mm < 10) {
-      mm = "0" + mm;
-    }
-    date = `${yyyy}-${mm}-${dd}`;
+    const parsedDate = new Date(date);
+    parsedDate.setDate(parsedDate.getDate() + 1);
+    date = dateToString(parsedDate);
     listEaten(date);
     $("#inputDate").val(date);
   });
   downArrow.addEventListener("click", () => {
-    let yyyy = parseInt(date.split("-")[0]);
-    let mm = parseInt(date.split("-")[1]);
-    let dd = parseInt(date.split("-")[2]);
-    let month30 = [2, 4, 6, 9, 11];
-    let month31 = [1, 5, 7, 8, 10, 12];
-    if (dd == 1 && month30.includes(mm)) {
-      mm -= 1;
-      dd = 31;
-    } else if (dd === 1 && month31.includes(mm)) {
-      mm -= 1;
-      dd = 30;
-    } else if (dd === 1 && mm === 3 && yyyy % 4 === 0) {
-      mm -= 1;
-      dd = 29;
-    } else if (dd === 1 && mm === 3 && yyyy % 4 !== 0) {
-      mm -= 1;
-      dd = 28;
-    } else {
-      dd -= 1;
-    }
-    if (dd < 10) {
-      dd = "0" + dd;
-    }
-    if (mm < 10) {
-      mm = "0" + mm;
-    }
-    date = `${yyyy}-${mm}-${dd}`;
+    const parsedDate = new Date(date);
+    parsedDate.setDate(parsedDate.getDate() - 1);
+    date = dateToString(parsedDate);
     listEaten(date);
     $("#inputDate").val(date);
   });
@@ -202,9 +154,11 @@ function listEaten(date) {
     data: {
       type: "eaten",
       id: id,
+      date: date,
     },
   }).done(function (data) {
     if (data === "empty") {
+      $("#foodTableBody tr").remove();
       $("#foodTableBody").append(
         `<tr>
         <td>Vous n'avez rien consommé</td>
@@ -217,6 +171,7 @@ function listEaten(date) {
     </tr>`
       );
     } else {
+      console.log(data);
       listAlways = JSON.parse(data);
       displayList(check(date));
     }
