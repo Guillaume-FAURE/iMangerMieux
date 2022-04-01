@@ -72,7 +72,7 @@ $(document).ready(() => {
   });
   inputDate.addEventListener("change", () => {
     date = $("#inputDate").val();
-    console.log(date);
+
     listEaten(date);
   });
 
@@ -115,7 +115,6 @@ $(document).ready(() => {
       if (data === "created" || data === "updated") {
         listEaten(date);
       } else {
-        console.log(data);
         alert("error during the creation in the tab eaten");
       }
     });
@@ -171,7 +170,6 @@ function listEaten(date) {
     </tr>`
       );
     } else {
-      console.log(data);
       listAlways = JSON.parse(data);
       displayList(check(date));
     }
@@ -179,7 +177,6 @@ function listEaten(date) {
 }
 
 function deleteRow(foodId, date) {
-  console.log(date);
   $.ajax({
     method: "DELETE",
     url: `../backend/food.php?id=${id}&food=${foodId}&date=${date}`,
