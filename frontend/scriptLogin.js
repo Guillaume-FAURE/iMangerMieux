@@ -111,9 +111,9 @@ function postData(person) {
         if (data === "double") {
             alert("Mail dejà utilisé");
         } else {
-            console.log("created successfully");
+            sessionStorage.setItem("id", data);
+            document.location.href = "./journal.html";
         }
-        // document.location.href = "./journal.html";
     });
 }
 
