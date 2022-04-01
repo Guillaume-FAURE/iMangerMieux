@@ -1,3 +1,5 @@
+const id = sessionStorage.getItem("id");
+
 function apportOMS(gender, weight, age) {
     gender === "femme"
         ? (document.getElementById("gender").innerHTML = "une femme")
@@ -217,6 +219,7 @@ document.getElementById("addGoal").addEventListener("click", () => {
         </div>
         `;
 });
+
 function updateGoal() {
     const goal = {
         energy: $("#inputNewEnergy").val(),
@@ -230,6 +233,29 @@ function updateGoal() {
         salt: $("#inputNewSalt").val(),
     };
     console.log(goal);
+    $.ajax({
+        method: "POST",
+        url: "../backend/goal.php",
+        data: {
+            id: id,
+            energy: goal.energy,
+            protein: goal.protein,
+            glucid: goal.glucid,
+            lipid: goal.lipid,
+            sugar: goal.sugar,
+            fibre: goal.fibre,
+            saturatedFat: goal.saturatedFat,
+            cholesterol: goal.cholesterol,
+            salt: goal.salt,
+        },
+    }).done(function (data) {
+        console.log(data);
+        if (data === "success") {
+            console.log("data sent");
+        } else {
+            console.log("data not sent");
+        }
+    });
 }
 
 function cancel() {
