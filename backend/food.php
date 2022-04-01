@@ -114,11 +114,21 @@ switch ($_SERVER["REQUEST_METHOD"]) {
                 $row = mysqli_fetch_array($res);
                 $food_id = $row[0];
             }
-            $sqlCheck = "SELECT * FROM eaten WHERE eaten.person_id='$id' AND eaten.food_id='$food_id' AND eaten.time='$date'";
+            $sqlCheck = "SELECT quantity FROM eaten WHERE eaten.person_id='$id' AND eaten.food_id='$food_id' AND eaten.time='$date'";
             $resultCheck = mysqli_query($conn, $sqlCheck);
+            if (mysqli_num_rows($resultCheck) > 0) {
+                $row = mysqli_fetch_array($resultCheck);
+                $quantity = $row[0];
+                $number += $quantity;
+            }
 
             if (mysqli_num_rows($resultCheck) > 0) {
-                echo json_encode($number);
+                $sqlUpdate = "UPDATE eaten SET quantity = '$number' WHERE eaten.person_id='$id' AND eaten.food_id='$food_id' AND eaten.time='$date'";
+                if ($conn->query($sqlUpdate) === TRUE) {
+                    echo "updated";
+                } else {
+                    echo "error";
+                }
             } else {
                 $sql = "INSERT INTO eaten (person_id, food_id, quantity, time) 
                     VALUES ('$id', '$food_id', '$number', '$date')";

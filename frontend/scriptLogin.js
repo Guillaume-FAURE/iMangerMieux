@@ -29,8 +29,6 @@ $(document).ready(() => {
     document.getElementById("return").style.display = "none";
     document.getElementById("btnLogin").style.display = "block";
   });
-
-  
 });
 
 $(document).ready(function () {
@@ -108,7 +106,9 @@ function postData(person) {
     },
   }).done(function (data) {
     if (data === "double") {
-      alert("Mail dejà utilisé");
+      document.getElementById("failText").innerHTML =
+        "Il y a déjà un compte associé à cette adresse mail.";
+      document.getElementById("fail").style.display = "block";
     } else {
       console.log(data);
     }

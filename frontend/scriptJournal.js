@@ -63,12 +63,10 @@ $(document).ready(() => {
         number: number,
       },
     }).done(function (data) {
-      if (data === "created") {
+      if (data === "created" || data === "updated") {
         listEaten(today());
       } else {
-        const result = JSON.parse(data);
-        console.log(result);
-        // $("#inputQuantity").val(number + result);
+        alert("error during the creation in the tab eaten");
       }
     });
   });
