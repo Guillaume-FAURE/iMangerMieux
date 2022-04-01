@@ -1,4 +1,5 @@
 const id = sessionStorage.getItem("id");
+getGoal(id);
 
 function apportOMS(gender, weight, age) {
     gender === "femme"
@@ -50,56 +51,29 @@ function apportOMS(gender, weight, age) {
     document.getElementById("saltOMS").innerHTML = 35;
 }
 
-function apportPersonnel(goal) {
-    if (!goal.energy) {
-        document.getElementById("energyPerso").innerHTML =
-            document.getElementById("energyOMS").innerHTML;
-    }
-    if (!goal.protein) {
-        document.getElementById("proteinPerso").innerHTML =
-            document.getElementById("proteinOMS").innerHTML;
-    }
-    if (!goal.glucid) {
-        document.getElementById("glucidPerso").innerHTML =
-            document.getElementById("glucidOMS").innerHTML;
-    }
-    if (!goal.sugar) {
-        document.getElementById("sugarPerso").innerHTML =
-            document.getElementById("sugarOMS").innerHTML;
-    }
-    if (!goal.lipid) {
-        document.getElementById("lipidPerso").innerHTML =
-            document.getElementById("lipidOMS").innerHTML;
-    }
-    if (!goal.fat) {
-        document.getElementById("fatPerso").innerHTML =
-            document.getElementById("fatOMS").innerHTML;
-    }
-    if (!goal.fibre) {
-        document.getElementById("fibrePerso").innerHTML =
-            document.getElementById("fibreOMS").innerHTML;
-    }
-    if (!goal.cholesterol) {
+function getGoal(id) {
+    $.ajax({
+        method: "POST",
+        url: "../backend/goal.php",
+        data: {
+            type: "getGoal",
+            id: id,
+        },
+    }).done((data) => {
+        data = JSON.parse(data);
+        document.getElementById("energyPerso").innerHTML = data.energy;
+        document.getElementById("proteinPerso").innerHTML = data.protein;
+        document.getElementById("glucidPerso").innerHTML = data.glucid;
+        document.getElementById("lipidPerso").innerHTML = data.lipid;
+        document.getElementById("sugarPerso").innerHTML = data.sugar;
+        document.getElementById("fibrePerso").innerHTML = data.fibre;
+        document.getElementById("fatPerso").innerHTML = data.saturated_fat;
         document.getElementById("cholesterolPerso").innerHTML =
-            document.getElementById("cholesterolOMS").innerHTML;
-    }
-    if (!goal.salt) {
-        document.getElementById("saltPerso").innerHTML =
-            document.getElementById("saltOMS").innerHTML;
-    }
+            data.cholesterol;
+        document.getElementById("saltPerso").innerHTML = data.salt;
+    });
 }
 
-const emptyGoal = {
-    energy: undefined,
-    protein: undefined,
-    glucid: undefined,
-    sugar: undefined,
-    lipid: undefined,
-    fat: undefined,
-    fibre: undefined,
-    cholesterol: undefined,
-    salt: undefined,
-};
 document.getElementById("addGoal").addEventListener("click", () => {
     document.querySelector(".contentDiv").style.opacity = 0.2;
     document.getElementById("addGoalWrapper").innerHTML = `
@@ -222,6 +196,7 @@ document.getElementById("addGoal").addEventListener("click", () => {
 
 function updateGoal() {
     const goal = {
+        id: id,
         energy: $("#inputNewEnergy").val(),
         protein: $("#inputNewProtein").val(),
         glucid: $("#inputNewGlucid").val(),
@@ -242,7 +217,8 @@ function updateGoal() {
         method: "POST",
         url: "../backend/goal.php",
         data: {
-            id: id,
+            type: "updateGoal",
+            id: goal.id,
             energy: goal.energy,
             protein: goal.protein,
             glucid: goal.glucid,
@@ -255,11 +231,8 @@ function updateGoal() {
         },
     }).done(function (data) {
         console.log(data);
-        if (data === "success") {
-            console.log("data sent");
-        } else {
-            console.log("data not sent");
-        }
+        console.log("data sent");
+        location.reload();
     });
 }
 
@@ -268,4 +241,3 @@ function cancel() {
     document.getElementById("addGoalWrapper").innerHTML = "";
 }
 apportOMS("homme", 75, 21);
-apportPersonnel(emptyGoal);

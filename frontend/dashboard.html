@@ -21,7 +21,7 @@
                 <h2 class="titleLogo">Manger Mieux</h2>
             </div>
             <div class="goalWrapper">
-                <div class="OMSGoal goal column">
+                <div class="OMSGoal column">
                     <h2 class="titleGoal">
                         Recommandation de VIDAL pour
                         <span id="gender">un homme</span> de
@@ -67,46 +67,80 @@
                         <div><span id="saltOMS"></span> g/semaine max</div>
                     </div>
                 </div>
-                <div class="personnalGoal goal column">
+                <div class="personnalGoal column">
                     <h2 class="titleGoal">Objectif personnel hebdomadaire</h2>
-                    <div class="row apportWrapper">
-                        <h3 class="titleApport">Energie :</h3>
-                        <div><span id="energyPerso"></span> cal/semaine</div>
-                    </div>
-                    <div class="row apportWrapper">
-                        <h3 class="titleApport">Protéines :</h3>
-                        <div><span id="proteinPerso"></span> g/semaine</div>
-                    </div>
-                    <div class="row apportWrapper">
-                        <h3 class="titleApport">Glucides :</h3>
-                        <div><span id="glucidPerso"></span> g/semaine</div>
-                    </div>
-                    <div class="row apportWrapper">
-                        <h3 class="titleApport">dont sucres :</h3>
-                        <div><span id="sugarPerso"></span> g/semaine max</div>
-                    </div>
-                    <div class="row apportWrapper">
-                        <h3 class="titleApport">Lipides :</h3>
-                        <div><span id="lipidPerso"></span> g/semaine</div>
-                    </div>
-                    <div class="row apportWrapper">
-                        <h3 class="titleApport">dont gras saturé :</h3>
-                        <div><span id="fatPerso"></span> g/semaine max</div>
-                    </div>
-                    <div class="row apportWrapper">
-                        <h3 class="titleApport">Fibres :</h3>
-                        <div><span id="fibrePerso"></span> g/semaine</div>
-                    </div>
-                    <div class="row apportWrapper">
-                        <h3 class="titleApport">Cholestérol :</h3>
-                        <div>
-                            <span id="cholesterolPerso"></span> mg/semaine max
-                        </div>
-                    </div>
-                    <div class="row apportWrapper">
-                        <h3 class="titleApport">Sel :</h3>
-                        <div><span id="saltPerso"></span> g/semaine max</div>
-                    </div>
+                    <table>
+                        <tr>
+                            <th id="nutrientHeader">Nutriment</th>
+                            <th class="dataHeader">Objectif hebdomadaire</th>
+                            <th class="dataHeader">Consommation</th>
+                            <th class="dataHeader">Objectif restant</th>
+                            <th id="unitHeader">unité</th>
+                        </tr>
+                        <tr>
+                            <td class="titleApport">Energie :</td>
+                            <td id="energyPerso"></td>
+                            <td></td>
+                            <td></td>
+                            <td>kcal/semaine</td>
+                        </tr>
+                        <tr>
+                            <td class="titleApport">Protéines :</td>
+                            <td id="proteinPerso"></td>
+                            <td></td>
+                            <td></td>
+                            <td>g/semaine</td>
+                        </tr>
+                        <tr>
+                            <td class="titleApport">Glucides :</td>
+                            <td id="glucidPerso"></td>
+                            <td></td>
+                            <td></td>
+                            <td>g/semaine</td>
+                        </tr>
+                        <tr>
+                            <td class="titleApport">dont sucres :</td>
+                            <td id="sugarPerso"></td>
+                            <td></td>
+                            <td></td>
+                            <td>g/semaine max</td>
+                        </tr>
+                        <tr>
+                            <td class="titleApport">Lipides :</td>
+                            <td id="lipidPerso"></td>
+                            <td></td>
+                            <td></td>
+                            <td>g/semaine</td>
+                        </tr>
+                        <tr>
+                            <td class="titleApport">dont gras saturé :</td>
+                            <td id="fatPerso"></td>
+                            <td></td>
+                            <td></td>
+                            <td>g/semaine max</td>
+                        </tr>
+                        <tr>
+                            <td class="titleApport">Fibres :</td>
+                            <td id="fibrePerso"></td>
+                            <td></td>
+                            <td></td>
+                            <td>g/semaine</td>
+                        </tr>
+                        <tr>
+                            <td class="titleApport">Cholestérol :</td>
+                            <td id="cholesterolPerso"></td>
+                            <td></td>
+                            <td></td>
+                            <td>g/semaine</td>
+                        </tr>
+                        <tr>
+                            <td class="titleApport">Sel :</td>
+                            <td id="saltPerso"></td>
+                            <td></td>
+                            <td></td>
+                            <td>g/semaine max</td>
+                        </tr>
+                    </table>
                 </div>
             </div>
             <button type="button" id="addGoal" class="soloButton">
