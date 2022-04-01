@@ -35,3 +35,6 @@ thead {
   flex-direction: column;
   margin-left: 5px;
 }
+#tableWrapper {
+  height: 60vh;
+}

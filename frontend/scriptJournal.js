@@ -1,16 +1,17 @@
+//
 const id = sessionStorage.getItem("id");
-var listAlways = new Array();
-var date;
-var date = new Date();
+let listAlways = new Array();
+
+let date = new Date();
 date = today();
 listEaten(date);
 $("#inputDate").val(today());
 
 function today() {
-  var today = new Date();
-  var dd = today.getDate();
-  var mm = today.getMonth() + 1;
-  var yyyy = today.getFullYear();
+  let today = new Date();
+  let dd = today.getDate();
+  let mm = today.getMonth() + 1;
+  let yyyy = today.getFullYear();
   if (dd < 10) {
     dd = "0" + dd;
   }
@@ -22,7 +23,7 @@ function today() {
 }
 
 function check(date) {
-  var listDate = new Array();
+  let listDate = new Array();
   let i = 0;
   let j = 0;
   for (i; i < listAlways.length; i++) {
@@ -63,24 +64,66 @@ $(document).ready(() => {
   });
 
   upArrow.addEventListener("click", () => {
-    var yyyy = date.split("-")[0];
-    var mm =date.split("-")[1];
-    var dd = parseInt(date.split("-")[2]);
+    let yyyy = parseInt(date.split("-")[0]);
+    let mm = parseInt(date.split("-")[1]);
+    let dd = parseInt(date.split("-")[2]);
+    //List of the month with 30 days
+    let month30 = [4, 6, 9, 11];
+    //List of month with 31 days
+    let month31 = [1, 3, 5, 7, 8, 10, 12];
+    if (dd == 30 && month30.includes(mm)) {
+      mm += 1;
+      dd = 1;
+    } else if (dd === 31 && month31.includes(mm)) {
+      mm += 1;
+      dd = 1;
+    } else if (dd === 29 && mm === 2 && yyyy % 4 === 0) {
+      mm += 1;
+      dd = 1;
+    } else if (dd === 28 && mm === 2 && yyyy % 4 !== 0) {
+      mm += 1;
+      dd = 1;
+    } else {
+      dd += 1;
+    }
     if (dd < 10) {
       dd = "0" + dd;
     }
-    
-    date = date.split("-")[0] + "-" + date.split("-")[1] + "-" + dd;
+    if (mm < 10) {
+      mm = "0" + mm;
+    }
+    date = `${yyyy}-${mm}-${dd}`;
     listEaten(date);
     $("#inputDate").val(date);
   });
   downArrow.addEventListener("click", () => {
-    var dd = parseInt(date.split("-")[2]) - 1;
+    let yyyy = parseInt(date.split("-")[0]);
+    let mm = parseInt(date.split("-")[1]);
+    let dd = parseInt(date.split("-")[2]);
+    let month30 = [2, 4, 6, 9, 11];
+    let month31 = [1, 5, 7, 8, 10, 12];
+    if (dd == 1 && month30.includes(mm)) {
+      mm -= 1;
+      dd = 31;
+    } else if (dd === 1 && month31.includes(mm)) {
+      mm -= 1;
+      dd = 30;
+    } else if (dd === 1 && mm === 3 && yyyy % 4 === 0) {
+      mm -= 1;
+      dd = 29;
+    } else if (dd === 1 && mm === 3 && yyyy % 4 !== 0) {
+      mm -= 1;
+      dd = 28;
+    } else {
+      dd -= 1;
+    }
     if (dd < 10) {
       dd = "0" + dd;
     }
-    date = date.split("-")[0] + "-" + date.split("-")[1] + "-" + dd;
-
+    if (mm < 10) {
+      mm = "0" + mm;
+    }
+    date = `${yyyy}-${mm}-${dd}`;
     listEaten(date);
     $("#inputDate").val(date);
   });
@@ -125,7 +168,7 @@ $(document).ready(() => {
         $("#select").empty();
         const result = JSON.parse(data);
         for (let i = 0; i < result.length; i++) {
-          var option = document.createElement("option");
+          let option = document.createElement("option");
           option.value = result[i].name;
           select.appendChild(option);
         }
