@@ -2,7 +2,7 @@
 $host         = "localhost";
 $username     = "root";
 $password     = "";
-$dbname       = "mangerMieux";
+$dbname       = "manger_mieux";
 
 $conn = new mysqli($host, $username, $password, $dbname);
 if ($conn->connect_error) {
@@ -10,7 +10,7 @@ if ($conn->connect_error) {
 }
 switch ($_SERVER["REQUEST_METHOD"]) {
     case 'GET':
-        $sql = "SELECT * FROM personne";
+        $sql = "SELECT * FROM persons";
         $result = mysqli_query($conn, $sql);
 
         if (mysqli_num_rows($result) > 0) {
@@ -25,7 +25,7 @@ switch ($_SERVER["REQUEST_METHOD"]) {
         $conn->close();
         break;
     case 'DELETE':
-        $sql = "DELETE FROM personne WHERE id = " . $_GET['id'];
+        $sql = "DELETE FROM persons WHERE id = " . $_GET['id'];
         if ($conn->query($sql) === TRUE) {
             echo "success";
         } else {
@@ -34,15 +34,14 @@ switch ($_SERVER["REQUEST_METHOD"]) {
         $conn->close();
         break;
     case 'POST':
-
         if ($_POST['type'] == "update") {
             $nom  = $_POST['nom'];
             $prenom  = $_POST['prenom'];
             $date  = $_POST['date'];
             $password = $_POST['password'];
             $email = $_POST['email'];
-            $sql = "update personne set nom = '$nom', prenom = '$prenom', date = '$date', personne.like = '$like', rem = '$rem' where personne.id = '$id'";
-            if ($conn->query($sql) === TRUE) {
+            $sql = "UPDATE persons SET name = '$nom', surname = '$prenom', time = '$date' WHERE persons.id = '$id'";
+            if ($conn->query($sql) == TRUE) {
                 echo "Record updated successfully";
             } else {
                 echo "Error: " . $sql . "<br>" . $conn->error;
@@ -54,13 +53,16 @@ switch ($_SERVER["REQUEST_METHOD"]) {
             $date  = $_POST['date'];
             $password = $_POST['password'];
             $email = $_POST['email'];
-            $check = "select * FROM personne WHERE Email='$email'";
+            $check = "select * FROM persons WHERE email='$email'";
             $result = mysqli_query($conn, $check);
-
             if (mysqli_num_rows($result) > 0) {
-                echo 0;
+                echo "double";
             } else {
-                $sql    = "insert into personne (Email, Nom, Prenom, date, password) values ('$email','$nom','$prenom','$date','$password')  ";
+                if (!$date) {
+                    $sql    = "INSERT INTO persons (email, name, surname, time, password) values ('$email','$nom','$prenom',null,'$password')  ";
+                } else {
+                    $sql    = "INSERT INTO persons (email, name, surname, time, password) values ('$email','$nom','$prenom','$date','$password')  ";
+                }
                 if ($conn->query($sql) === TRUE) {
                     echo "New record created successfully";
                 } else {
@@ -71,7 +73,7 @@ switch ($_SERVER["REQUEST_METHOD"]) {
         } else if ($_POST['type'] == "check") {
             $email = $_POST['email'];
             $password = $_POST['password'];
-            $sql = "SELECT Personne_id FROM personne WHERE personne.Email='$email' AND personne.password='$password'";
+            $sql = "SELECT id FROM persons WHERE persons.email='$email' AND persons.password='$password'";
             $result = mysqli_query($conn, $sql);
 
             if (mysqli_num_rows($result) > 0) {

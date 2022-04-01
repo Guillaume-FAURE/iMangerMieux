@@ -1,0 +1,12 @@
+body {
+    padding-top: 100px;
+}
+.label {
+    width: 90px;
+}
+#addFoodWrapper {
+    display: none;
+}
+#researchFoodWrapper {
+    display: flex;
+}
