@@ -47,11 +47,13 @@ $(document).ready(() => {
     const inputFood = document.getElementById("inputFood");
     const addFood = document.getElementById("addFood");
 
+    //Display the button, hide the form
     returnBtn.addEventListener("click", () => {
         addFoodForm.style.display = "none";
         addFood.style.display = "block";
     });
 
+    //Display the form, hide the button
     addFood.addEventListener("click", () => {
         document.getElementById("addFoodForm").style.display = "block";
         addFood.style.display = "none";
@@ -63,6 +65,7 @@ $(document).ready(() => {
         listEaten(date);
     });
 
+    //Move to a day later
     upArrow.addEventListener("click", () => {
         const parsedDate = new Date(date);
         parsedDate.setDate(parsedDate.getDate() + 1);
@@ -70,6 +73,8 @@ $(document).ready(() => {
         listEaten(date);
         $("#inputDate").val(date);
     });
+
+    //Move to a day earlier
     downArrow.addEventListener("click", () => {
         const parsedDate = new Date(date);
         parsedDate.setDate(parsedDate.getDate() - 1);
@@ -78,6 +83,7 @@ $(document).ready(() => {
         $("#inputDate").val(date);
     });
 
+    //Add a thing you ate in the database
     btnAdd.addEventListener("click", () => {
         event.preventDefault();
         const food = $("#inputFood").val();
@@ -107,6 +113,7 @@ $(document).ready(() => {
         });
     });
 
+    //Dynamic search in the database
     inputFood.addEventListener("input", () => {
         const foodName = $("#inputFood").val();
         const select = document.getElementById("select");
@@ -133,6 +140,7 @@ $(document).ready(() => {
     });
 });
 
+//Display the table
 function listEaten(date) {
     $.ajax({
         method: "POST",
@@ -162,6 +170,7 @@ function listEaten(date) {
     });
 }
 
+//Delete a thing you ate
 function deleteRow(foodId, date) {
     $.ajax({
         method: "DELETE",

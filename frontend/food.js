@@ -42,7 +42,11 @@ const btnAddFood = document.getElementById("addFood");
 const btnSearchFood = document.getElementById("searchFood");
 const searchFoodWrapper = document.getElementById("researchFoodWrapper");
 const addFoodWrapper = document.getElementById("addFoodWrapper");
-
+const btnDisc = document.getElementById("deco");
+btnDisc.addEventListener("click", () => {
+    sessionStorage.clear();
+    document.location.href("profil.html");
+});
 btnAddFood.addEventListener("click", () => {
     event.preventDefault();
     searchFoodWrapper.style.display = "none";
