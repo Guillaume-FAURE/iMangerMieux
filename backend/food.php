@@ -33,7 +33,6 @@ switch ($_SERVER["REQUEST_METHOD"]) {
         $conn->close();
         break;
     case 'POST':
-        echo nl2br("Requete post food \n");
         if ($_POST['type'] == "update") {
             $nom  = $_POST['nom'];
             $prenom  = $_POST['prenom'];
@@ -86,7 +85,10 @@ switch ($_SERVER["REQUEST_METHOD"]) {
                         }
                     }
                 } else {
-                    echo "Error: " . $sql . "<br>" . $conn->error;
+                    echo "Error: " . $sql . "<br>
+            $result = mysqli_query($conn, $check);
+            if (mysqli_num_rows($result) > 0) {
+                echo mysqli_fetch_array($result)[0];" . $conn->error;
                 }
             }
         } else if ($_POST['type'] == "eaten") {
@@ -114,7 +116,13 @@ switch ($_SERVER["REQUEST_METHOD"]) {
             } else {
                 echo "error";
             }
-        } else if ($_POST['type'] == "newEaten") {
+        } else if ($_POST['type'] == "getFood"){
+            $id = $_POST['id'];
+            $sql = "SELECT nutrient_id, value FROM composition WHERE food_id='$id'";
+            $result = mysqli_query($conn, $sql);
+            echo json_encode(mysqli_fetch_assoc($result));
+        }
+         else if ($_POST['type'] == "newEaten") {
             $name = $_POST['food'];
             $id = $_POST['id'];
             $number = $_POST['number'];
@@ -145,7 +153,7 @@ switch ($_SERVER["REQUEST_METHOD"]) {
                     VALUES ('$id', '$food_id', '$number', '$date')";
                 if ($conn->query($sql) === TRUE) {
                     echo "created";
-                }there will be a short info session over Zoom about how to plan and select courses. Please note that the info session is focused on course selection, and not for que
+                }
             }
         }
         $conn->close();

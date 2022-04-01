@@ -86,7 +86,7 @@ function login() {
             document.getElementById("fail").style.display = "block";
         } else {
             sessionStorage.setItem("id", data);
-            document.location.href = "./journal.html";
+            document.location.href = "./dashboard.html";
         }
     });
 }
@@ -110,9 +110,9 @@ function postData(person) {
                 "Il y a déjà un compte associé à cette adresse mail.";
             document.getElementById("fail").style.display = "block";
         } else {
-            console.log(data);
+            sessionStorage.setItem("id", data);
+            document.location.href = "./dashboard.html";
         }
-        // document.location.href = "./journal.html";
     });
 }
 

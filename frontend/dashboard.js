@@ -1,6 +1,20 @@
 const id = sessionStorage.getItem("id");
 getGoal(id);
 
+//Function which convert date to string
+function dateToString(date) {
+    return date.toISOString().substring(0, 10);
+}
+
+//Function which returns today's date
+function today() {
+    return dateToString(new Date());
+}
+
+let date = new Date();
+date = today();
+eaten(date);
+
 function apportOMS(gender, weight, age) {
     gender === "femme"
         ? (document.getElementById("gender").innerHTML = "une femme")
@@ -73,6 +87,47 @@ function getGoal(id) {
         document.getElementById("saltPerso").innerHTML = data.salt;
     });
 }
+
+function eaten(date) {
+    $.ajax({
+        method: "POST",
+        url: "../backend/food.php",
+        data: {
+            type: "eaten",
+            id: id,
+            date: date,
+        },
+    }).done((data) => {
+        const foodList = JSON.parse(data);
+        const consumption = {
+            energy: 0,
+            protein: 0,
+            glucid: 0,
+            lipid: 0,
+            sugar: 0,
+            fibre: 0,
+            fat: 0,
+            cholesterol: 0,
+            salt: 0,
+        };
+        foodList.forEach((food) => {
+            $.ajax({
+                method: "POST",
+                url: "../backend/food.php",
+                data: {
+                    type: "getFood",
+                    id: food.food_id,
+                },
+            }).done(function (data) {
+                console.log(data);
+            });
+        });
+    });
+}
+
+document.getElementById("addMeal").addEventListener("click", () => {
+    document.location.href = "./journal.html";
+});
 
 document.getElementById("addGoal").addEventListener("click", () => {
     document.querySelector(".contentDiv").style.opacity = 0.2;
