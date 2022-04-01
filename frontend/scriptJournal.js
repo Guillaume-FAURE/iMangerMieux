@@ -3,9 +3,9 @@ var listAlways = new Array();
 var date;
 var date = new Date();
 date = today();
-console.log(Date(Date.parse(date)));
 listEaten(date);
 $("#inputDate").val(today());
+
 function today() {
   var today = new Date();
   var dd = today.getDate();
@@ -49,19 +49,7 @@ function displayList(list) {
     );
   }
 }
-function changeDay(date, day) {
-  var newDate =new Date(Date.parse(date));
-  var dd = newDate.getDate() + day;
-  var mm = newDate.getMonth() + 1;
-  var yyyy = newDate.getFullYear();
-  if (dd < 10) {
-    dd = "0" + dd;
-  }
-  if (mm < 10) {
-    mm = "0" + mm;
-  }
-  date = yyyy + "-" + mm + "-" + dd;
-}
+
 $(document).ready(() => {
   const inputDate = document.getElementById("inputDate");
   const upArrow = document.getElementById("up");
@@ -75,12 +63,24 @@ $(document).ready(() => {
   });
 
   upArrow.addEventListener("click", () => {
-    changeDay(date, 1);
+    var yyyy = date.split("-")[0];
+    var mm =date.split("-")[1];
+    var dd = parseInt(date.split("-")[2]);
+    if (dd < 10) {
+      dd = "0" + dd;
+    }
+    
+    date = date.split("-")[0] + "-" + date.split("-")[1] + "-" + dd;
     listEaten(date);
     $("#inputDate").val(date);
   });
   downArrow.addEventListener("click", () => {
-    changeDay(-1);
+    var dd = parseInt(date.split("-")[2]) - 1;
+    if (dd < 10) {
+      dd = "0" + dd;
+    }
+    date = date.split("-")[0] + "-" + date.split("-")[1] + "-" + dd;
+
     listEaten(date);
     $("#inputDate").val(date);
   });
