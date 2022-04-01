@@ -1,3 +1,4 @@
+//returns a user
 function toUser(nom, prenom, date, email, password) {
     return {
         email: email,
@@ -8,6 +9,7 @@ function toUser(nom, prenom, date, email, password) {
     };
 }
 
+//Get the user input in the form
 function getUser() {
     return toUser(
         $("#inputNom").val(),
@@ -22,6 +24,9 @@ $(document).ready(() => {
     const btnReturn = document.getElementById("return");
     const info = document.getElementById("createInfo");
     const btnCreate = document.getElementById("btnCreate");
+    const btnLogin = document.getElementById("btnLogin");
+
+    //Hide the form and display the login form
     btnReturn.addEventListener("click", () => {
         event.preventDefault();
         info.style.display = "none";
@@ -29,10 +34,8 @@ $(document).ready(() => {
         document.getElementById("return").style.display = "none";
         document.getElementById("btnLogin").style.display = "block";
     });
-});
 
-$(document).ready(function () {
-    const btnCreate = document.getElementById("btnCreate");
+    //Display the form for the user signup and check that the input are correct
     btnCreate.addEventListener("click", () => {
         event.preventDefault();
         const info = document.getElementById("createInfo");
@@ -52,10 +55,8 @@ $(document).ready(function () {
             }
         }
     });
-});
 
-$(document).ready(function () {
-    const btnLogin = document.getElementById("btnLogin");
+    //Login if the input are correct
     btnLogin.addEventListener("click", () => {
         event.preventDefault();
         const user = getUser();
@@ -69,6 +70,7 @@ $(document).ready(function () {
     });
 });
 
+//Login if email and password are correct
 function login() {
     const user = getUser();
     $.ajax({
@@ -91,6 +93,7 @@ function login() {
     });
 }
 
+//Create a new user if email is not yet used
 function postData(person) {
     $.ajax({
         method: "POST",
@@ -114,22 +117,6 @@ function postData(person) {
         }
         // document.location.href = "./journal.html";
     });
-}
-
-function updateData(person) {
-    $.ajax({
-        method: "POST",
-        url: `../backend/user.ph?id=${selectedRowId}`,
-        data: {
-            type: "update",
-            id: selectedRowId,
-            nom: person.nom,
-            prenom: person.prenom,
-            date: person.date,
-            email: person.email,
-            password: person.password,
-        },
-    }).done(function (data) {});
 }
 
 function getData() {
