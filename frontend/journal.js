@@ -140,6 +140,7 @@ $(document).ready(() => {
         const parsedDate = new Date(date);
         parsedDate.setDate(parsedDate.getDate() + 1);
         date = dateToString(parsedDate);
+
         listEaten(date);
         $("#inputDate").val(date);
     });
@@ -148,6 +149,7 @@ $(document).ready(() => {
     downArrow.addEventListener("click", () => {
         const parsedDate = new Date(date);
         parsedDate.setDate(parsedDate.getDate() - 1);
+
         date = dateToString(parsedDate);
         listEaten(date);
         $("#inputDate").val(date);

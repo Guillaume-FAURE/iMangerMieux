@@ -113,7 +113,6 @@ switch ($_SERVER["REQUEST_METHOD"]) {
                 while ($row = mysqli_fetch_assoc($result)) {
                     $array_values[] = $row;
                 }
-
                 echo json_encode($array_values);
             } else {
                 echo "error";
