@@ -8,6 +8,69 @@ let listAlways = new Array();
 let date = new Date();
 
 date = today();
+
+//returns the day of the week between 1-7
+function day(strDate) {
+    let temp = new Date(Date.parse(strDate));
+    return temp.getDay();
+}
+
+function weeks(strDate) {
+    let today = day(strDate);
+    let dateStart = new Date(strDate);
+    let dateEnd = new Date(strDate);
+    dateEnd.setDate(dateEnd.getDate() + 7 - today);
+    dateStart.setDate(dateStart.getDate() - today + 1);
+    return [dateToString(dateStart), dateToString(dateEnd)];
+}
+console.log(getKcal(date));
+let listWeek = new Array();
+//returns kcal consumed since the beginning of the week
+function getKcal(date) {
+    week = weeks(date);
+    let dateQuery = week[0];
+    for (let i = 0; i < 7; i++) {
+        $.ajax({
+            method: "POST",
+            url: "../backend/food.php",
+            data: {
+                type: "eaten",
+                id: id,
+                date: dateQuery,
+            },
+        }).done(function (data) {
+            if (data === "empty") {
+                console.log("vide");
+            } else {
+                // let listWeek = new Array();
+                // listWeek = JSON.parse(data)[food_id];
+                // let result = 0;
+                // for (let j = 0; j < listWeek; j++) {
+                //     $.ajax({
+                //         method: "POST",
+                //         url: "../backend/food.php",
+                //         data: {
+                //             type: "kcal",
+                //             food: listWeek[j],
+                //         },
+                //     }).done(function (data) {
+                //         if (data === "error") {
+                //             console.log(data);
+                //         } else {
+                //             result += JSON.parse(data);
+                //         }
+                //     });
+                // }
+                listWeek.push.apply(listWeek, JSON.parse(data));
+                console.log(listWeek);
+            }
+        });
+        const parsedDate = new Date(dateQuery);
+        parsedDate.setDate(parsedDate.getDate() + 1);
+        dateQuery = dateToString(parsedDate);
+    }
+}
+
 listEaten(date);
 $("#inputDate").val(today());
 
@@ -70,6 +133,7 @@ $(document).ready(() => {
         const parsedDate = new Date(date);
         parsedDate.setDate(parsedDate.getDate() + 1);
         date = dateToString(parsedDate);
+
         listEaten(date);
         $("#inputDate").val(date);
     });
@@ -78,6 +142,7 @@ $(document).ready(() => {
     downArrow.addEventListener("click", () => {
         const parsedDate = new Date(date);
         parsedDate.setDate(parsedDate.getDate() - 1);
+
         date = dateToString(parsedDate);
         listEaten(date);
         $("#inputDate").val(date);
@@ -158,9 +223,7 @@ function listEaten(date) {
         <td>Vous n'avez rien consommé</td>
         <td></td>
         <td></td>
-        <td>
-            <button class="delBtn">Supprimer</button>
-        </td>
+        <td></td>
     </tr>`
             );
         } else {

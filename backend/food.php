@@ -88,6 +88,18 @@ switch ($_SERVER["REQUEST_METHOD"]) {
             } else {
                 echo "empty";
             }
+        } else if ($_POST['type'] == "kcal") {
+            $food_id = $_POST['food'];
+            $sql = "SELECT value FROM composition WHERE composition.food_id='$food_id' AND nutrient_id=5";
+            $result = mysqli_query($conn, $sql);
+            if (mysqli_num_rows($result) > 0) {
+                while ($row = mysqli_fetch_assoc($result)) {
+                    $array_values[] = $row;
+                }
+                echo json_encode($array_values);
+            } else {
+                echo "error";
+            }
         } else if ($_POST['type'] == "search") {
             $name = $_POST['name'];
             $sql = 'SELECT name FROM foods WHERE name LIKE "%' . $name . '%" LIMIT 5';
