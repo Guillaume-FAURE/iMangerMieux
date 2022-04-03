@@ -16,10 +16,10 @@ function day(strDate) {
 }
 
 function getBeginningOfTheWeek(strDate) {
-    const date = new Date(strDate);
-    var day = date.getDay();
-    var diff = date.getDate() - day + (day == 0 ? -6 : 1); // adjust when day is sunday
-    return dateToString(new Date(date.setDate(diff)));
+    const dateTmp = new Date(strDate);
+    let day = dateTmp.getDay();
+    let diff = dateTmp.getDate() - day + (day == 0 ? -6 : 1); // adjust when day is sunday
+    return dateToString(new Date(dateTmp.setDate(diff)));
 }
 
 let listWeek = new Array();
@@ -29,7 +29,6 @@ function getKcal(date) {
     const parsedDate = new Date(dateStart);
     parsedDate.setDate(parsedDate.getDate() + 6);
     const dateEnd = dateToString(parsedDate);
-    console.log(dateStart, dateEnd);
     $.ajax({
         method: "POST",
         url: "../backend/food.php",
@@ -43,7 +42,6 @@ function getKcal(date) {
         if (data === "error") {
         } else {
             result = JSON.parse(data);
-            console.log(result[0].sum);
             displayGoal(result[0].sum);
         }
     });
@@ -59,12 +57,10 @@ function displayGoal(kcal) {
         },
     }).done(function (data) {
         if (data === "error") {
-            console.log(data);
         } else {
             let response = JSON.parse(data);
             const goal = document.getElementById("goal");
             let rest = parseInt(response[0].energy) - parseInt(kcal);
-            console.log(response[0].energy, kcal, rest);
             goal.innerHTML = `objectif : ${response[0].energy} - consommation : ${kcal} = ${rest}kcal`;
         }
     });
@@ -74,7 +70,17 @@ $("#inputDate").val(today());
 
 //Function which convert date to string
 function dateToString(date) {
-    return date.toISOString().substring(0, 10);
+    let year = date.getFullYear();
+    let month = date.getMonth() + 1;
+    let day = date.getDate();
+    if (month < 10) {
+        month = "0" + month;
+    }
+    if (day < 10) {
+        day = "0" + day;
+    }
+
+    return year + "-" + month + "-" + day;
 }
 
 //Function which returns today's date
@@ -130,8 +136,9 @@ $(document).ready(() => {
     upArrow.addEventListener("click", () => {
         const parsedDate = new Date(date);
         parsedDate.setDate(parsedDate.getDate() + 1);
+        console.log(parsedDate);
+        console.log(dateToString(parsedDate));
         date = dateToString(parsedDate);
-
         listEaten(date);
         $("#inputDate").val(date);
     });
@@ -140,7 +147,6 @@ $(document).ready(() => {
     downArrow.addEventListener("click", () => {
         const parsedDate = new Date(date);
         parsedDate.setDate(parsedDate.getDate() - 1);
-
         date = dateToString(parsedDate);
         listEaten(date);
         $("#inputDate").val(date);
