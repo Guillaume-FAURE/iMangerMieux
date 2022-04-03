@@ -117,6 +117,25 @@ switch ($_SERVER["REQUEST_METHOD"]) {
             } else {
                 echo "error";
             }
+        } else if ($_POST['type'] == "kcal") {
+            $id = $_POST['id'];
+            $dateStart = $_POST['dateStart'];
+            $dateEnd = $_POST['dateEnd'];
+            $sql = "SELECT COALESCE(sum(value),0) AS 'sum' FROM composition 
+            INNER JOIN eaten ON
+            composition.food_id=eaten.food_id WHERE composition.nutrient_id=5
+            AND eaten.time BETWEEN '$dateStart' AND '$dateEnd' 
+            AND eaten.person_id='$id'";
+            $result = mysqli_query($conn, $sql);
+            if (mysqli_num_rows($result) > 0) {
+                while ($row = mysqli_fetch_assoc($result)) {
+                    $array_values[] = $row;
+                }
+
+                echo json_encode($array_values);
+            } else {
+                echo "error";
+            }
         } else if ($_POST['type'] == "search") {
             $name = $_POST['name'];
             $sql = 'SELECT name FROM foods WHERE name LIKE "%' . $name . '%" LIMIT 5';
