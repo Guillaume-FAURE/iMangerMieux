@@ -41,3 +41,10 @@ thead {
     margin: 10px;
     display: none;
 }
+#incompleteText {
+    margin: 0;
+    display: flex;
+    justify-content: center;
+    text-align: center;
+    flex-direction: column;
+}
