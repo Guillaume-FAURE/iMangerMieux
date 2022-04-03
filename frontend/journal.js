@@ -15,62 +15,60 @@ function day(strDate) {
     return temp.getDay();
 }
 
-function weeks(strDate) {
-    let today = day(strDate);
-    let dateStart = new Date(strDate);
-    let dateEnd = new Date(strDate);
-    dateEnd.setDate(dateEnd.getDate() + 7 - today);
-    dateStart.setDate(dateStart.getDate() - today + 1);
-    return [dateToString(dateStart), dateToString(dateEnd)];
+function getBeginningOfTheWeek(strDate) {
+    const date = new Date(strDate);
+    var day = date.getDay();
+    var diff = date.getDate() - day + (day == 0 ? -6 : 1); // adjust when day is sunday
+    return dateToString(new Date(date.setDate(diff)));
 }
-console.log(getKcal(date));
+
 let listWeek = new Array();
 //returns kcal consumed since the beginning of the week
 function getKcal(date) {
-    week = weeks(date);
-    let dateQuery = week[0];
-    for (let i = 0; i < 7; i++) {
-        $.ajax({
-            method: "POST",
-            url: "../backend/food.php",
-            data: {
-                type: "eaten",
-                id: id,
-                date: dateQuery,
-            },
-        }).done(function (data) {
-            if (data === "empty") {
-                console.log("vide");
-            } else {
-                // let listWeek = new Array();
-                // listWeek = JSON.parse(data)[food_id];
-                // let result = 0;
-                // for (let j = 0; j < listWeek; j++) {
-                //     $.ajax({
-                //         method: "POST",
-                //         url: "../backend/food.php",
-                //         data: {
-                //             type: "kcal",
-                //             food: listWeek[j],
-                //         },
-                //     }).done(function (data) {
-                //         if (data === "error") {
-                //             console.log(data);
-                //         } else {
-                //             result += JSON.parse(data);
-                //         }
-                //     });
-                // }
-                listWeek.push.apply(listWeek, JSON.parse(data));
-                console.log(listWeek);
-            }
-        });
-        const parsedDate = new Date(dateQuery);
-        parsedDate.setDate(parsedDate.getDate() + 1);
-        dateQuery = dateToString(parsedDate);
-    }
+    const dateStart = getBeginningOfTheWeek(date);
+    const parsedDate = new Date(dateStart);
+    parsedDate.setDate(parsedDate.getDate() + 6);
+    const dateEnd = dateToString(parsedDate);
+    console.log(dateStart, dateEnd);
+    $.ajax({
+        method: "POST",
+        url: "../backend/food.php",
+        data: {
+            type: "kcal",
+            id: id,
+            dateStart: dateStart,
+            dateEnd: dateEnd,
+        },
+    }).done(function (data) {
+        if (data === "error") {
+        } else {
+            result = JSON.parse(data);
+            console.log(result[0].sum);
+            displayGoal(result[0].sum);
+        }
+    });
 }
 
+function displayGoal(kcal) {
+    $.ajax({
+        method: "POST",
+        url: "../backend/food.php",
+        data: {
+            type: "goal",
+            id: id,
+        },
+    }).done(function (data) {
+        if (data === "error") {
+            console.log(data);
+        } else {
+            let response = JSON.parse(data);
+            const goal = document.getElementById("goal");
+            let rest = parseInt(response[0].energy) - parseInt(kcal);
+            console.log(response[0].energy, kcal, rest);
+            goal.innerHTML = `objectif : ${response[0].energy} - consommation : ${kcal} = ${rest}kcal`;
+        }
+    });
+}
 listEaten(date);
 $("#inputDate").val(today());
 
@@ -207,6 +205,8 @@ $(document).ready(() => {
 
 //Display the table
 function listEaten(date) {
+    getKcal(date);
+    getBeginningOfTheWeek(date);
     $.ajax({
         method: "POST",
         url: "../backend/food.php",
