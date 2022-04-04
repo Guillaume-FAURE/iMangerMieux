@@ -51,3 +51,6 @@ thead {
 .incDB {
     margin: 0;
 }
+body {
+    padding-top: 100px;
+}

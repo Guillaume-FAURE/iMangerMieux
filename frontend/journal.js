@@ -116,6 +116,20 @@ $(document).ready(() => {
     const btnAdd = document.getElementById("btnAdd");
     const inputFood = document.getElementById("inputFood");
     const addFood = document.getElementById("addFood");
+    const dashBtn = document.getElementById("dashboard");
+    const btnDisc = document.getElementById("deco");
+    const btnMiss = document.getElementById("btnMiss");
+    btnMiss.addEventListener("click", () => {
+        location.href = "food.html";
+    });
+
+    btnDisc.addEventListener("click", () => {
+        sessionStorage.clear();
+        location.href = "profil.html";
+    });
+    dashBtn.addEventListener("click", () => {
+        location.href = "dashboard.html";
+    });
 
     //Display the button, hide the form
     returnBtn.addEventListener("click", () => {
