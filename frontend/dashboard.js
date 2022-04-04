@@ -100,15 +100,15 @@ function eaten(date) {
     }).done((data) => {
         const foodList = JSON.parse(data);
         const consumption = {
-            energy: 0,
-            protein: 0,
-            glucid: 0,
-            lipid: 0,
-            sugar: 0,
-            fibre: 0,
-            fat: 0,
-            cholesterol: 0,
-            salt: 0,
+            5: 0,
+            8: 0,
+            9: 0,
+            10: 0,
+            11: 0,
+            12: 0,
+            13: 0,
+            14: 0,
+            15: 0,
         };
         foodList.forEach((food) => {
             $.ajax({
@@ -118,8 +118,58 @@ function eaten(date) {
                     type: "getFood",
                     id: food.food_id,
                 },
-            }).done(function (data) {
-                console.log(data);
+            }).done((data) => {
+                const jsonData = JSON.parse(data);
+                for (let i = 0; i < jsonData.length; i++) {
+                    consumption[jsonData[i].nutrient_id] = jsonData[i].value;
+                }
+                console.log(consumption);
+                document.getElementById("consumptionEnergy").innerHTML =
+                    consumption[5];
+                document.getElementById("consumptionProtein").innerHTML =
+                    consumption[8];
+                document.getElementById("consumptionGlucid").innerHTML =
+                    consumption[9];
+                document.getElementById("consumptionLipid").innerHTML =
+                    consumption[10];
+                document.getElementById("consumptionSugar").innerHTML =
+                    consumption[11];
+                document.getElementById("consumptionFibre").innerHTML =
+                    consumption[12];
+                document.getElementById("consumptionFat").innerHTML =
+                    consumption[13];
+                document.getElementById("consumptionCholesterol").innerHTML =
+                    consumption[14];
+                document.getElementById("consumptionSalt").innerHTML =
+                    consumption[15];
+                //Objectif restant
+                document.getElementById("resultEnergy").innerHTML =
+                    document.getElementById("energyPerso").innerHTML -
+                    consumption[5];
+                document.getElementById("resultProtein").innerHTML =
+                    document.getElementById("proteinPerso").innerHTML -
+                    consumption[8];
+                document.getElementById("resultGlucid").innerHTML =
+                    document.getElementById("glucidPerso").innerHTML -
+                    consumption[9];
+                document.getElementById("resultLipid").innerHTML =
+                    document.getElementById("lipidPerso").innerHTML -
+                    consumption[10];
+                document.getElementById("resultSugar").innerHTML =
+                    document.getElementById("sugarPerso").innerHTML -
+                    consumption[11];
+                document.getElementById("resultFibre").innerHTML =
+                    document.getElementById("fibrePerso").innerHTML -
+                    consumption[12];
+                document.getElementById("resultFat").innerHTML =
+                    document.getElementById("fatPerso").innerHTML -
+                    consumption[13];
+                document.getElementById("resultCholesterol").innerHTML =
+                    document.getElementById("cholesterolPerso").innerHTML -
+                    consumption[14];
+                document.getElementById("resultSalt").innerHTML =
+                    document.getElementById("saltPerso").innerHTML -
+                    consumption[15];
             });
         });
     });

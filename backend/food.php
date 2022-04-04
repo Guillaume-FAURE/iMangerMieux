@@ -168,7 +168,10 @@ switch ($_SERVER["REQUEST_METHOD"]) {
             $id = $_POST['id'];
             $sql = "SELECT nutrient_id, value FROM composition WHERE food_id='$id'";
             $result = mysqli_query($conn, $sql);
-            echo json_encode(mysqli_fetch_assoc($result));
+            while ($row = mysqli_fetch_assoc($result)) {
+                $array_values[] = $row;
+            }
+            echo json_encode($array_values);
         }
          else if ($_POST['type'] == "newEaten") {
             $name = $_POST['food'];
