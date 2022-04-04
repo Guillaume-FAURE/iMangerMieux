@@ -122,7 +122,6 @@ function eatenWeek() {
         },
     }).done((data) => {
         const nutrientConsumption = JSON.parse(data);
-        console.log(nutrientConsumption);
         const consumption = {
             5: 0,
             8: 0,
@@ -139,7 +138,6 @@ function eatenWeek() {
                 nutrientConsumption[i].sum
             ).toFixed(1);
         }
-        console.log(consumption);
         document.getElementById("consumptionEnergy").innerHTML = consumption[5];
         document.getElementById("consumptionProtein").innerHTML =
             consumption[8];
