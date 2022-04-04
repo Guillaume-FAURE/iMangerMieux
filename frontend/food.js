@@ -22,9 +22,13 @@ const btnSearchFood = document.getElementById("searchFood");
 const searchFoodWrapper = document.getElementById("researchFoodWrapper");
 const addFoodWrapper = document.getElementById("addFoodWrapper");
 const btnDisc = document.getElementById("deco");
+const btnJrn = document.getElementById("btnJrn");
+btnJrn.addEventListener("click", () => {
+    location.href = "journal.html";
+});
 btnDisc.addEventListener("click", () => {
     sessionStorage.clear();
-    document.location.href("profil.html");
+    location.href = "profil.html";
 });
 btnAddFood.addEventListener("click", () => {
     event.preventDefault();

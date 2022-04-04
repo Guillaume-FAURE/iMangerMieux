@@ -184,7 +184,10 @@ function eatenWeek() {
 document.getElementById("addMeal").addEventListener("click", () => {
     document.location.href = "./journal.html";
 });
-
+document.getElementById("deco").addEventListener("click", () => {
+    sessionStorage.clear();
+    location.href = "profil.html";
+});
 document.getElementById("addGoal").addEventListener("click", () => {
     document.querySelector(".contentDiv").style.opacity = 0.2;
     document.getElementById("addGoalWrapper").innerHTML = `
