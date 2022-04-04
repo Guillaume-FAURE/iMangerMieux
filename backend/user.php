@@ -14,8 +14,8 @@ switch ($_SERVER["REQUEST_METHOD"]) {
         $result = mysqli_query($conn, $sql);
 
         if (mysqli_num_rows($result) > 0) {
-            while ($row = mysqli_fetch_assoc($result)) {
-                $array_values[] = $row;
+            while ($rowGet = mysqli_fetch_assoc($result)) {
+                $array_values[] = $rowGet;
             }
         } else {
             echo "0 results";
@@ -47,28 +47,39 @@ switch ($_SERVER["REQUEST_METHOD"]) {
                 echo "Error: " . $sql . "<br>" . $conn->error;
             }
             $conn->close();
-        }
-        else if ($_POST['type'] == "infoOMS"){
+        } else if ($_POST['type'] == "idOMS") {
             $id = $_POST['id'];
-            $check = "select YEAR(time) as born,gender, weight FROM persons WHERE id='$id'";
-            $result = mysqli_query($conn, $check);
+            $sql = "select YEAR(time) as born,gender, weight, id FROM persons WHERE id='$id'";
+            $result = mysqli_query($conn, $sql);
             echo json_encode(mysqli_fetch_assoc($result));
-        }
-        else if ($_POST['type'] == "create") {
+        } else if ($_POST['type'] == "infoOMS") {
+            $email = $_POST['email'];
+            $sqlId = "SELECT id FROM persons WHERE email = '$email'";
+            $result = mysqli_query($conn, $sqlId);
+            if (mysqli_num_rows($result) > 0) {
+                $rowOMS = mysqli_fetch_array($result);
+                $id = $rowOMS[0];
+                $checkOMS = "select YEAR(time) as born,gender, weight, id FROM persons WHERE id='$id'";
+                $res = mysqli_query($conn, $checkOMS);
+                echo json_encode(mysqli_fetch_assoc($res));
+            }
+        } else if ($_POST['type'] == "create") {
             $nom  = $_POST['nom'];
             $prenom  = $_POST['prenom'];
             $date  = $_POST['date'];
             $password = $_POST['password'];
             $email = $_POST['email'];
-            $check = "select * FROM persons WHERE email='$email'";
-            $result = mysqli_query($conn, $check);
+            $gender = $_POST['gender'];
+            $weight = $_POST['weight'];
+            $checkEmail = "select * FROM persons WHERE email='$email'";
+            $result = mysqli_query($conn, $checkEmail);
             if (mysqli_num_rows($result) > 0) {
                 echo "double";
             } else {
                 if (!$date) {
-                    $sql    = "INSERT INTO persons (email, name, surname, time, password) values ('$email','$nom','$prenom',null,PASSWORD('$password'))  ";
+                    $sql    = "INSERT INTO persons (email, name, surname, time, password,gender,weight) values ('$email','$nom','$prenom',null,PASSWORD('$password'), '$gender', '$weight')";
                 } else {
-                    $sql    = "INSERT INTO persons (email, name, surname, time, password) values ('$email','$nom','$prenom','$date',PASSWORD('$password'))  ";
+                    $sql    = "INSERT INTO persons (email, name, surname, time, password, gender, weight) values ('$email','$nom','$prenom','$date',PASSWORD('$password'), '$gender', '$weight')";
                 }
                 if ($conn->query($sql) === TRUE) {
                     echo "New record created successfully";
@@ -82,7 +93,6 @@ switch ($_SERVER["REQUEST_METHOD"]) {
             $password = $_POST['password'];
             $sql = "SELECT id FROM persons WHERE persons.email='$email' AND persons.password=PASSWORD('$password')";
             $result = mysqli_query($conn, $sql);
-
             if (mysqli_num_rows($result) > 0) {
                 $row = mysqli_fetch_array($result);
                 echo $row[0];
@@ -90,6 +100,5 @@ switch ($_SERVER["REQUEST_METHOD"]) {
                 echo "failure";
             }
         }
-
         break;
 }

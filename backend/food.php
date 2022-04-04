@@ -56,10 +56,10 @@ switch ($_SERVER["REQUEST_METHOD"]) {
             $saturatedFat = $_POST['saturatedFat'];
             $cholesterol = $_POST['cholesterol'];
             $salt = $_POST['salt'];
-            $nutrients = [$energy,$protein,$glucid,$lipid,$sugar,$fibre,$saturatedFat,$cholesterol,$salt];
-            for ($i=0;$i< sizeof($nutrients);$i++){
-                if (!$nutrients[$i]){
-                    $nutrients[$i]=0;
+            $nutrients = [$energy, $protein, $glucid, $lipid, $sugar, $fibre, $saturatedFat, $cholesterol, $salt];
+            for ($i = 0; $i < sizeof($nutrients); $i++) {
+                if (!$nutrients[$i]) {
+                    $nutrients[$i] = 0;
                 }
             }
             $check = "SELECT * FROM foods WHERE name='$name'";
@@ -72,14 +72,13 @@ switch ($_SERVER["REQUEST_METHOD"]) {
                 if ($conn->query($addFoodSql) == TRUE) {
                     echo nl2br("Food added successfully \n");
                     $getIdFood = "SELECT id FROM foods WHERE name='$name'";
-                    $food_id=mysqli_fetch_array(mysqli_query($conn, $getIdFood))[0];
-                    $indexNutrient = [5,8,9,10,11,12,13,14,15];
-                    for($i=0;$i< sizeof($indexNutrient);$i++){
+                    $food_id = mysqli_fetch_array(mysqli_query($conn, $getIdFood))[0];
+                    $indexNutrient = [5, 8, 9, 10, 11, 12, 13, 14, 15];
+                    for ($i = 0; $i < sizeof($indexNutrient); $i++) {
                         $addCompositionSql = "INSERT INTO composition (food_id, nutrient_id,value) values ($food_id, $indexNutrient[$i],$nutrients[$i])";
-                        if ($conn->query($addCompositionSql) == TRUE){
+                        if ($conn->query($addCompositionSql) == TRUE) {
                             echo nl2br("Composition added successfully \n");
-                        }
-                        else {
+                        } else {
                             echo "Error: " . $sql . "<br>" . $conn->error;
                         }
                     }
@@ -119,25 +118,7 @@ switch ($_SERVER["REQUEST_METHOD"]) {
             $id = $_POST['id'];
             $dateStart = $_POST['dateStart'];
             $dateEnd = $_POST['dateEnd'];
-            $sql = "SELECT COALESCE(sum(value),0) AS 'sum' FROM composition 
-            INNER JOIN eaten ON
-            composition.food_id=eaten.food_id WHERE composition.nutrient_id=5
-            AND eaten.time BETWEEN '$dateStart' AND '$dateEnd' 
-            AND eaten.person_id='$id'";
-            $result = mysqli_query($conn, $sql);
-            if (mysqli_num_rows($result) > 0) {
-                while ($row = mysqli_fetch_assoc($result)) {
-                    $array_values[] = $row;
-                }
-                echo json_encode($array_values);
-            } else {
-                echo "error";
-            }
-        } else if ($_POST['type'] == "kcal") {
-            $id = $_POST['id'];
-            $dateStart = $_POST['dateStart'];
-            $dateEnd = $_POST['dateEnd'];
-            $sql = "SELECT COALESCE(sum(value),0) AS 'sum' FROM composition 
+            $sql = "SELECT COALESCE(sum(value),0) AS 'sum', eaten.quantity AS 'quantity' FROM composition 
             INNER JOIN eaten ON
             composition.food_id=eaten.food_id WHERE composition.nutrient_id=5
             AND eaten.time BETWEEN '$dateStart' AND '$dateEnd' 
@@ -164,18 +145,21 @@ switch ($_SERVER["REQUEST_METHOD"]) {
             } else {
                 echo "error";
             }
-        } else if ($_POST['type'] == "eatenWeek"){
+        } else if ($_POST['type'] == "eatenWeek") {
             $id = $_POST['id'];
             $dateStart = $_POST['dateStart'];
             $dateEnd = $_POST['dateEnd'];
-            $sql = "SELECT nutrient_id, sum(value)*eaten.quantity AS 'sum' FROM composition LEFT JOIN eaten ON composition.food_id=eaten.food_id WHERE eaten.time BETWEEN '$dateStart' AND '$dateEnd' AND eaten.person_id='$id' GROUP BY nutrient_id"; 
+            $sql = "SELECT nutrient_id, sum(value)*eaten.quantity AS 'sum' FROM composition LEFT JOIN eaten ON composition.food_id=eaten.food_id WHERE eaten.time BETWEEN '$dateStart' AND '$dateEnd' AND eaten.person_id='$id' GROUP BY nutrient_id";
             $result = mysqli_query($conn, $sql);
-            while ($row = mysqli_fetch_assoc($result)) {
-                $array_values[] = $row;
+            if (mysqli_num_rows($result) > 0) {
+                while ($row = mysqli_fetch_assoc($result)) {
+                    $array_values[] = $row;
+                }
+                echo json_encode($array_values);
+            }else{
+                echo "rien mange";
             }
-            echo json_encode($array_values);
-        }
-         else if ($_POST['type'] == "newEaten") {
+        } else if ($_POST['type'] == "newEaten") {
             $name = $_POST['food'];
             $id = $_POST['id'];
             $number = $_POST['number'];
@@ -207,6 +191,17 @@ switch ($_SERVER["REQUEST_METHOD"]) {
                 if ($conn->query($sql) === TRUE) {
                     echo "created";
                 }
+            }
+        } else if ($_POST['type'] == "delete") {
+            $id = $_POST['id'];
+            $date = $_POST['date'];
+            $food = $_POST['food'];
+            $sql = "DELETE FROM eaten WHERE person_id='$id' AND time='$date' AND food_id='$food'";
+            $result = mysqli_query($conn, $sql);
+            if ($conn->query($sql) === TRUE) {
+                echo "success";
+            } else {
+                echo "erreur";
             }
         }
         $conn->close();
