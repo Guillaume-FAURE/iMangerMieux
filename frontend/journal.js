@@ -18,7 +18,7 @@ function day(strDate) {
 function getBeginningOfTheWeek(strDate) {
     const dateTmp = new Date(strDate);
     const day = dateTmp.getDay();
-    const diff = dateTmp.getDate() - day + (day == 0 ? -6 : 1); // adjust when day is sunday
+    const diff = dateTmp.getDate() - day + (day == 0 ? -6 : 1);
     return dateToString(new Date(dateTmp.setDate(diff)));
 }
 
@@ -29,6 +29,9 @@ function getKcal(date) {
     const parsedDate = new Date(dateStart);
     parsedDate.setDate(parsedDate.getDate() + 6);
     const dateEnd = dateToString(parsedDate);
+    document.getElementById(
+        "weeks"
+    ).innerHTML = `Semaine du ${dateStart} au ${dateEnd}`;
     $.ajax({
         method: "POST",
         url: "../backend/food.php",
