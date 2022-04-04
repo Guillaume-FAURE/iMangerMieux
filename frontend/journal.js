@@ -45,7 +45,7 @@ function getKcal(date) {
         if (data === "error") {
         } else {
             result = JSON.parse(data);
-            displayGoal(result[0].sum);
+            displayGoal(result[0].sum * result[0].quantity);
         }
     });
 }
@@ -257,8 +257,14 @@ function listEaten(date) {
 //Delete a thing you ate
 function deleteRow(foodId, date) {
     $.ajax({
-        method: "DELETE",
-        url: `../backend/food.php?id=${id}&food=${foodId}&date=${date}`,
+        method: "POST",
+        url: `../backend/food.php`,
+        data: {
+            type: "delete",
+            id: id,
+            date: date,
+            food: foodId,
+        },
     })
         .done((response) => {
             if (response === "success") {

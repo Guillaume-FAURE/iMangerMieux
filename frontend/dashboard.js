@@ -16,7 +16,7 @@ function apportOMS(id) {
         method: "POST",
         url: "../backend/user.php",
         data: {
-            type: "infoOMS",
+            type: "idOMS",
             id: id,
         },
     }).done((data) => {
@@ -111,6 +111,17 @@ function eatenWeek() {
     const parsedDate = new Date(dateStart);
     parsedDate.setDate(parsedDate.getDate() + 6);
     const dateEnd = dateToString(parsedDate);
+    const consumption = {
+                5: 0,
+                8: 0,
+                9: 0,
+                10: 0,
+                11: 0,
+                12: 0,
+                13: 0,
+                14: 0,
+                15: 0,
+            };
     $.ajax({
         method: "POST",
         url: "../backend/food.php",
@@ -121,63 +132,69 @@ function eatenWeek() {
             dateEnd: dateEnd,
         },
     }).done((data) => {
-        const nutrientConsumption = JSON.parse(data);
-        const consumption = {
-            5: 0,
-            8: 0,
-            9: 0,
-            10: 0,
-            11: 0,
-            12: 0,
-            13: 0,
-            14: 0,
-            15: 0,
-        };
-        for (let i = 0; i < nutrientConsumption.length; i++) {
-            consumption[nutrientConsumption[i].nutrient_id] = parseFloat(
-                nutrientConsumption[i].sum
-            ).toFixed(1);
+        if (data === "rien mange") {
+            console.log("aucune conso");
+        } else {
+            const nutrientConsumption = JSON.parse(data);
+            for (let i = 0; i < nutrientConsumption.length; i++) {
+                consumption[nutrientConsumption[i].nutrient_id] = parseFloat(
+                    nutrientConsumption[i].sum
+                ).toFixed(1);
+            }
         }
-        document.getElementById("consumptionEnergy").innerHTML = consumption[5];
-        document.getElementById("consumptionProtein").innerHTML =
-            consumption[8];
-        document.getElementById("consumptionGlucid").innerHTML = consumption[9];
-        document.getElementById("consumptionLipid").innerHTML = consumption[10];
-        document.getElementById("consumptionSugar").innerHTML = consumption[11];
-        document.getElementById("consumptionFibre").innerHTML = consumption[12];
-        document.getElementById("consumptionFat").innerHTML = consumption[13];
-        document.getElementById("consumptionCholesterol").innerHTML =
-            consumption[14];
-        document.getElementById("consumptionSalt").innerHTML = consumption[15];
-        //Objectif restant
-        document.getElementById("resultEnergy").innerHTML = (
-            document.getElementById("energyPerso").innerHTML - consumption[5]
-        ).toFixed(1);
-        document.getElementById("resultProtein").innerHTML = (
-            document.getElementById("proteinPerso").innerHTML - consumption[8]
-        ).toFixed(1);
-        document.getElementById("resultGlucid").innerHTML = (
-            document.getElementById("glucidPerso").innerHTML - consumption[9]
-        ).toFixed(1);
-        document.getElementById("resultLipid").innerHTML = (
-            document.getElementById("lipidPerso").innerHTML - consumption[10]
-        ).toFixed(1);
-        document.getElementById("resultSugar").innerHTML = (
-            document.getElementById("sugarPerso").innerHTML - consumption[11]
-        ).toFixed(1);
-        document.getElementById("resultFibre").innerHTML = (
-            document.getElementById("fibrePerso").innerHTML - consumption[12]
-        ).toFixed(1);
-        document.getElementById("resultFat").innerHTML = (
-            document.getElementById("fatPerso").innerHTML - consumption[13]
-        ).toFixed(1);
-        document.getElementById("resultCholesterol").innerHTML = (
-            document.getElementById("cholesterolPerso").innerHTML -
-            consumption[14]
-        ).toFixed(1);
-        document.getElementById("resultSalt").innerHTML = (
-            document.getElementById("saltPerso").innerHTML - consumption[15]
-        ).toFixed(1);
+            document.getElementById("consumptionEnergy").innerHTML =
+                consumption[5];
+            document.getElementById("consumptionProtein").innerHTML =
+                consumption[8];
+            document.getElementById("consumptionGlucid").innerHTML =
+                consumption[9];
+            document.getElementById("consumptionLipid").innerHTML =
+                consumption[10];
+            document.getElementById("consumptionSugar").innerHTML =
+                consumption[11];
+            document.getElementById("consumptionFibre").innerHTML =
+                consumption[12];
+            document.getElementById("consumptionFat").innerHTML =
+                consumption[13];
+            document.getElementById("consumptionCholesterol").innerHTML =
+                consumption[14];
+            document.getElementById("consumptionSalt").innerHTML =
+                consumption[15];
+            //Objectif restant
+            document.getElementById("resultEnergy").innerHTML = (
+                document.getElementById("energyPerso").innerHTML -
+                consumption[5]
+            ).toFixed(1);
+            document.getElementById("resultProtein").innerHTML = (
+                document.getElementById("proteinPerso").innerHTML -
+                consumption[8]
+            ).toFixed(1);
+            document.getElementById("resultGlucid").innerHTML = (
+                document.getElementById("glucidPerso").innerHTML -
+                consumption[9]
+            ).toFixed(1);
+            document.getElementById("resultLipid").innerHTML = (
+                document.getElementById("lipidPerso").innerHTML -
+                consumption[10]
+            ).toFixed(1);
+            document.getElementById("resultSugar").innerHTML = (
+                document.getElementById("sugarPerso").innerHTML -
+                consumption[11]
+            ).toFixed(1);
+            document.getElementById("resultFibre").innerHTML = (
+                document.getElementById("fibrePerso").innerHTML -
+                consumption[12]
+            ).toFixed(1);
+            document.getElementById("resultFat").innerHTML = (
+                document.getElementById("fatPerso").innerHTML - consumption[13]
+            ).toFixed(1);
+            document.getElementById("resultCholesterol").innerHTML = (
+                document.getElementById("cholesterolPerso").innerHTML -
+                consumption[14]
+            ).toFixed(1);
+            document.getElementById("resultSalt").innerHTML = (
+                document.getElementById("saltPerso").innerHTML - consumption[15]
+            ).toFixed(1);
     });
 }
 
@@ -356,4 +373,5 @@ async function main() {
     await apportOMS(id);
     await eatenWeek();
 }
+
 main();
