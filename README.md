@@ -1,18 +1,34 @@
 # iMangerMieux
 
-Simple app in JS/PHP/SQL to have a healthier alimentation
+Simple app in HTML/CSS/JS/PHP/SQL to have a healthier alimentation
+## About The Project
 
-## FrontEnd
+The goal of this project is to learn how to create a website from scratch. We used HTML/CSS and JavaScript for the frontend of our website and PHP/SQL for the backend. 
 
-The frontEnd will be composed with 4 HTML pages :
+### Prerequisites
 
--   aliments.html : to have more information from a specific food
--   index.html : show a dashboard of the previous days
--   journal.html : show our journal with possibility to add food
--   profil.html : page to login to our page
+- XAMPP, MAMP, WAMP, Docker...
+Download and install one of the above.
 
-JS to make the site reactive and to make a link with the back end through the PHP page
+### Installation
 
-## BackEnd
+_Below is an example of how you can install the dependancies and set up the app._
 
-A PHP file to send data to a SQL dataBase.
+1. Clone the repo
+   ```sh
+   git clone https://github.com/Guillaume-FAURE/iMangerMieux.git
+   ```
+
+2.  Open your favorite tool and start an Apache and SQL server
+
+3. Create the database
+Go to http://localhost/phpmyadmin/index.php
+Create a new databse, name it "manger_mieux" (if you want to change the name, you also have to change the name in food.php and user.php l.5)
+Click on "import", select manger_mieux.sql and click "execute"
+
+4. Start the app
+Go to http://localhost:8080/iMangerMieux/frontend/profil.html
+That's it ! 
+
+
+

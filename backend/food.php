@@ -3,7 +3,6 @@ $host         = "localhost";
 $username     = "root";
 $password     = "";
 $dbname       = "manger_mieux";
-ini_set('memory_limit', '2048M');
 $conn = new mysqli($host, $username, $password, $dbname);
 if ($conn->connect_error) {
     die("Connection to database failed: " . $conn->connect_error);

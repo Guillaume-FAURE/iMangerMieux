@@ -11,14 +11,14 @@ date = today();
 
 //returns the day of the week between 1-7
 function day(strDate) {
-    let temp = new Date(Date.parse(strDate));
+    const temp = new Date(Date.parse(strDate));
     return temp.getDay();
 }
 
 function getBeginningOfTheWeek(strDate) {
     const dateTmp = new Date(strDate);
-    let day = dateTmp.getDay();
-    let diff = dateTmp.getDate() - day + (day == 0 ? -6 : 1); // adjust when day is sunday
+    const day = dateTmp.getDay();
+    const diff = dateTmp.getDate() - day + (day == 0 ? -6 : 1); // adjust when day is sunday
     return dateToString(new Date(dateTmp.setDate(diff)));
 }
 
@@ -136,8 +136,6 @@ $(document).ready(() => {
     upArrow.addEventListener("click", () => {
         const parsedDate = new Date(date);
         parsedDate.setDate(parsedDate.getDate() + 1);
-        console.log(parsedDate);
-        console.log(dateToString(parsedDate));
         date = dateToString(parsedDate);
         listEaten(date);
         $("#inputDate").val(date);
