@@ -139,8 +139,6 @@ $(document).ready(() => {
     upArrow.addEventListener("click", () => {
         const parsedDate = new Date(date);
         parsedDate.setDate(parsedDate.getDate() + 1);
-        console.log(parsedDate);
-        console.log(dateToString(parsedDate));
         date = dateToString(parsedDate);
         listEaten(date);
         $("#inputDate").val(date);

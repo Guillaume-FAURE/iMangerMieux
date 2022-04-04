@@ -1,14 +1,3 @@
-//returns a user
-function toUser(nom, prenom, date, email, password) {
-    return {
-        email: email,
-        nom: nom,
-        prenom: prenom,
-        date: date,
-        password: password,
-    };
-}
-
 //Get the user input in the form
 function getUser() {
     return {
