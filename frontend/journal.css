@@ -48,3 +48,6 @@ thead {
     text-align: center;
     flex-direction: column;
 }
+.incDB {
+    margin: 0;
+}

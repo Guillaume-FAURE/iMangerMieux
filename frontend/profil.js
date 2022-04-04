@@ -1,23 +1,12 @@
-//returns a user
-function toUser(nom, prenom, date, email, password) {
-    return {
-        email: email,
-        nom: nom,
-        prenom: prenom,
-        date: date,
-        password: password,
-    };
-}
-
 //Get the user input in the form
 function getUser() {
-    return toUser(
-        $("#inputNom").val(),
-        $("#inputPrenom").val(),
-        $("#inputDate").val(),
-        $("#inputEmail").val(),
-        $("#inputPass").val()
-    );
+    return {
+        nom: $("#inputNom").val(),
+        prenom: $("#inputPrenom").val(),
+        date: $("#inputDate").val(),
+        email: $("#inputEmail").val(),
+        password: $("#inputPass").val(),
+    };
 }
 
 $(document).ready(() => {
@@ -84,7 +73,7 @@ function login() {
     }).done(function (data) {
         if (data === "failure") {
             document.getElementById("failText").innerHTML =
-                "Votre email et mot de passe ne corresponde pas";
+                "Votre email et mot de passe ne correspondent pas";
             document.getElementById("fail").style.display = "block";
         } else {
             sessionStorage.setItem("id", data);
