@@ -1,27 +1,21 @@
-function toUser(nom, prenom, date, email, password) {
-    return {
-        email: email,
-        nom: nom,
-        prenom: prenom,
-        date: date,
-        password: password,
-    };
-}
-
+//Get the user input in the form
 function getUser() {
-    return toUser(
-        $("#inputNom").val(),
-        $("#inputPrenom").val(),
-        $("#inputDate").val(),
-        $("#inputEmail").val(),
-        $("#inputPass").val()
-    );
+    return {
+        nom: $("#inputNom").val(),
+        prenom: $("#inputPrenom").val(),
+        date: $("#inputDate").val(),
+        email: $("#inputEmail").val(),
+        password: $("#inputPass").val(),
+    };
 }
 
 $(document).ready(() => {
     const btnReturn = document.getElementById("return");
     const info = document.getElementById("createInfo");
     const btnCreate = document.getElementById("btnCreate");
+    const btnLogin = document.getElementById("btnLogin");
+
+    //Hide the form and display the login form
     btnReturn.addEventListener("click", () => {
         event.preventDefault();
         info.style.display = "none";
@@ -29,10 +23,8 @@ $(document).ready(() => {
         document.getElementById("return").style.display = "none";
         document.getElementById("btnLogin").style.display = "block";
     });
-});
 
-$(document).ready(function () {
-    const btnCreate = document.getElementById("btnCreate");
+    //Display the form for the user signup and check that the input are correct
     btnCreate.addEventListener("click", () => {
         event.preventDefault();
         const info = document.getElementById("createInfo");
@@ -52,10 +44,8 @@ $(document).ready(function () {
             }
         }
     });
-});
 
-$(document).ready(function () {
-    const btnLogin = document.getElementById("btnLogin");
+    //Login if the input are correct
     btnLogin.addEventListener("click", () => {
         event.preventDefault();
         const user = getUser();
@@ -69,6 +59,7 @@ $(document).ready(function () {
     });
 });
 
+//Login if email and password are correct
 function login() {
     const user = getUser();
     $.ajax({
@@ -82,7 +73,7 @@ function login() {
     }).done(function (data) {
         if (data === "failure") {
             document.getElementById("failText").innerHTML =
-                "Votre email et mot de passe ne corresponde pas";
+                "Votre email et mot de passe ne correspondent pas";
             document.getElementById("fail").style.display = "block";
         } else {
             sessionStorage.setItem("id", data);
@@ -91,6 +82,7 @@ function login() {
     });
 }
 
+//Create a new user if email is not yet used
 function postData(person) {
     $.ajax({
         method: "POST",
@@ -114,22 +106,6 @@ function postData(person) {
             document.location.href = "./dashboard.html";
         }
     });
-}
-
-function updateData(person) {
-    $.ajax({
-        method: "POST",
-        url: `../backend/user.ph?id=${selectedRowId}`,
-        data: {
-            type: "update",
-            id: selectedRowId,
-            nom: person.nom,
-            prenom: person.prenom,
-            date: person.date,
-            email: person.email,
-            password: person.password,
-        },
-    }).done(function (data) {});
 }
 
 function getData() {

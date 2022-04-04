@@ -59,9 +59,9 @@ switch ($_SERVER["REQUEST_METHOD"]) {
                 echo "double";
             } else {
                 if (!$date) {
-                    $sql    = "INSERT INTO persons (email, name, surname, time, password) values ('$email','$nom','$prenom',null,'$password')  ";
+                    $sql    = "INSERT INTO persons (email, name, surname, time, password) values ('$email','$nom','$prenom',null,PASSWORD('$password'))  ";
                 } else {
-                    $sql    = "INSERT INTO persons (email, name, surname, time, password) values ('$email','$nom','$prenom','$date','$password')  ";
+                    $sql    = "INSERT INTO persons (email, name, surname, time, password) values ('$email','$nom','$prenom','$date',PASSWORD('$password'))  ";
                 }
                 if ($conn->query($sql) === TRUE) {
                     echo "New record created successfully";
@@ -73,7 +73,7 @@ switch ($_SERVER["REQUEST_METHOD"]) {
         } else if ($_POST['type'] == "check") {
             $email = $_POST['email'];
             $password = $_POST['password'];
-            $sql = "SELECT id FROM persons WHERE persons.email='$email' AND persons.password='$password'";
+            $sql = "SELECT id FROM persons WHERE persons.email='$email' AND persons.password=PASSWORD('$password')";
             $result = mysqli_query($conn, $sql);
 
             if (mysqli_num_rows($result) > 0) {

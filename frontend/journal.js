@@ -8,12 +8,82 @@ let listAlways = new Array();
 let date = new Date();
 
 date = today();
+
+//returns the day of the week between 1-7
+function day(strDate) {
+    const temp = new Date(Date.parse(strDate));
+    return temp.getDay();
+}
+
+function getBeginningOfTheWeek(strDate) {
+    const dateTmp = new Date(strDate);
+    const day = dateTmp.getDay();
+    const diff = dateTmp.getDate() - day + (day == 0 ? -6 : 1);
+    return dateToString(new Date(dateTmp.setDate(diff)));
+}
+
+let listWeek = new Array();
+//returns kcal consumed since the beginning of the week
+function getKcal(date) {
+    const dateStart = getBeginningOfTheWeek(date);
+    const parsedDate = new Date(dateStart);
+    parsedDate.setDate(parsedDate.getDate() + 6);
+    const dateEnd = dateToString(parsedDate);
+    document.getElementById(
+        "weeks"
+    ).innerHTML = `Semaine du ${dateStart} au ${dateEnd}`;
+    $.ajax({
+        method: "POST",
+        url: "../backend/food.php",
+        data: {
+            type: "kcal",
+            id: id,
+            dateStart: dateStart,
+            dateEnd: dateEnd,
+        },
+    }).done(function (data) {
+        if (data === "error") {
+        } else {
+            result = JSON.parse(data);
+            displayGoal(result[0].sum);
+        }
+    });
+}
+
+function displayGoal(kcal) {
+    $.ajax({
+        method: "POST",
+        url: "../backend/food.php",
+        data: {
+            type: "goal",
+            id: id,
+        },
+    }).done(function (data) {
+        if (data === "error") {
+        } else {
+            let response = JSON.parse(data);
+            const goal = document.getElementById("goal");
+            let rest = parseInt(response[0].energy) - parseInt(kcal);
+            goal.innerHTML = `objectif : ${response[0].energy} - consommation : ${kcal} = ${rest}kcal`;
+        }
+    });
+}
 listEaten(date);
 $("#inputDate").val(today());
 
 //Function which convert date to string
 function dateToString(date) {
-    return date.toISOString().substring(0, 10);
+    let year = date.getFullYear();
+    let month = date.getMonth() + 1;
+    let day = date.getDate();
+    if (month < 10) {
+        month = "0" + month;
+    }
+    if (day < 10) {
+        day = "0" + day;
+    }
+
+    return year + "-" + month + "-" + day;
 }
 
 //Function which returns today's date
@@ -47,11 +117,13 @@ $(document).ready(() => {
     const inputFood = document.getElementById("inputFood");
     const addFood = document.getElementById("addFood");
 
+    //Display the button, hide the form
     returnBtn.addEventListener("click", () => {
         addFoodForm.style.display = "none";
         addFood.style.display = "block";
     });
 
+    //Display the form, hide the button
     addFood.addEventListener("click", () => {
         document.getElementById("addFoodForm").style.display = "block";
         addFood.style.display = "none";
@@ -63,6 +135,7 @@ $(document).ready(() => {
         listEaten(date);
     });
 
+    //Move to a day later
     upArrow.addEventListener("click", () => {
         const parsedDate = new Date(date);
         parsedDate.setDate(parsedDate.getDate() + 1);
@@ -70,6 +143,8 @@ $(document).ready(() => {
         listEaten(date);
         $("#inputDate").val(date);
     });
+
+    //Move to a day earlier
     downArrow.addEventListener("click", () => {
         const parsedDate = new Date(date);
         parsedDate.setDate(parsedDate.getDate() - 1);
@@ -78,6 +153,7 @@ $(document).ready(() => {
         $("#inputDate").val(date);
     });
 
+    //Add a thing you ate in the database
     btnAdd.addEventListener("click", () => {
         event.preventDefault();
         const food = $("#inputFood").val();
@@ -107,6 +183,7 @@ $(document).ready(() => {
         });
     });
 
+    //Dynamic search in the database
     inputFood.addEventListener("input", () => {
         const foodName = $("#inputFood").val();
         const select = document.getElementById("select");
@@ -133,7 +210,10 @@ $(document).ready(() => {
     });
 });
 
+//Display the table
 function listEaten(date) {
+    getKcal(date);
+    getBeginningOfTheWeek(date);
     $.ajax({
         method: "POST",
         url: "../backend/food.php",
@@ -150,9 +230,7 @@ function listEaten(date) {
         <td>Vous n'avez rien consommé</td>
         <td></td>
         <td></td>
-        <td>
-            <button class="delBtn">Supprimer</button>
-        </td>
+        <td></td>
     </tr>`
             );
         } else {
@@ -162,6 +240,7 @@ function listEaten(date) {
     });
 }
 
+//Delete a thing you ate
 function deleteRow(foodId, date) {
     $.ajax({
         method: "DELETE",
