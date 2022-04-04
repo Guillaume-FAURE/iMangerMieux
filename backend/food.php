@@ -164,9 +164,11 @@ switch ($_SERVER["REQUEST_METHOD"]) {
             } else {
                 echo "error";
             }
-        } else if ($_POST['type'] == "getFood"){
+        } else if ($_POST['type'] == "eatenWeek"){
             $id = $_POST['id'];
-            $sql = "SELECT nutrient_id, value FROM composition WHERE food_id='$id'";
+            $dateStart = $_POST['dateStart'];
+            $dateEnd = $_POST['dateEnd'];
+            $sql = "SELECT nutrient_id, sum(value)*eaten.quantity AS 'sum' FROM composition LEFT JOIN eaten ON composition.food_id=eaten.food_id WHERE eaten.time BETWEEN '$dateStart' AND '$dateEnd' AND eaten.person_id='$id' GROUP BY nutrient_id"; 
             $result = mysqli_query($conn, $sql);
             while ($row = mysqli_fetch_assoc($result)) {
                 $array_values[] = $row;
