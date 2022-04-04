@@ -47,7 +47,14 @@ switch ($_SERVER["REQUEST_METHOD"]) {
                 echo "Error: " . $sql . "<br>" . $conn->error;
             }
             $conn->close();
-        } else if ($_POST['type'] == "create") {
+        }
+        else if ($_POST['type'] == "infoOMS"){
+            $id = $_POST['id'];
+            $check = "select YEAR(time) as born,gender, weight FROM persons WHERE id='$id'";
+            $result = mysqli_query($conn, $check);
+            echo json_encode(mysqli_fetch_assoc($result));
+        }
+        else if ($_POST['type'] == "create") {
             $nom  = $_POST['nom'];
             $prenom  = $_POST['prenom'];
             $date  = $_POST['date'];
