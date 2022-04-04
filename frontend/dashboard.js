@@ -13,7 +13,7 @@ function today() {
 
 let date = new Date();
 date = today();
-eaten(date);
+eatenWeek();
 
 function apportOMS(gender, weight, age) {
     gender === "femme"
@@ -88,14 +88,14 @@ function getGoal(id) {
     });
 }
 
-function eaten(date) {
+function eatenWeek() {
+    
     $.ajax({
         method: "POST",
         url: "../backend/food.php",
         data: {
-            type: "eaten",
+            type: "eatenWeek",
             id: id,
-            date: date,
         },
     }).done((data) => {
         const foodList = JSON.parse(data);
