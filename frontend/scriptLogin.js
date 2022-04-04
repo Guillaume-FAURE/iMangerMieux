@@ -97,7 +97,6 @@ function postData(person) {
         url: "../backend/user.php",
         data: {
             type: "create",
-            id: person.id,
             nom: person.nom,
             prenom: person.prenom,
             date: person.date,
@@ -105,10 +104,9 @@ function postData(person) {
             password: person.password,
         },
     }).done(function (data) {
+        console.log("data");
         if (data === "double") {
-            document.getElementById("failText").innerHTML =
-                "Il y a déjà un compte associé à cette adresse mail.";
-            document.getElementById("fail").style.display = "block";
+            alert("Mail dejà utilisé");
         } else {
             sessionStorage.setItem("id", data);
             document.location.href = "./dashboard.html";

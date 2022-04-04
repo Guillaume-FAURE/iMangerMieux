@@ -12,7 +12,6 @@ switch ($_SERVER["REQUEST_METHOD"]) {
     case 'GET':
         $sql = "SELECT * FROM foods";
         $result = mysqli_query($conn, $sql);
-
         if (mysqli_num_rows($result) > 0) {
             while ($row = mysqli_fetch_assoc($result)) {
                 $array_values[] = $row;
@@ -25,11 +24,7 @@ switch ($_SERVER["REQUEST_METHOD"]) {
         $conn->close();
         break;
     case 'DELETE':
-        // DELETE from eaten WHERE person_id=37 AND food_id=21509 AND TIME='2022-03-31'
-        $id = $_GET['id'];
-        $food_id = $_GET['food'];
-        $date = $_GET['date'];
-        $sql = "DELETE FROM eaten WHERE person_id =  $id  AND food_id = $food_id AND time = '$date'";
+        $sql = "DELETE FROM foods WHERE id = " . $_GET['id'];
         if ($conn->query($sql) === TRUE) {
             echo "success";
         } else {
@@ -38,7 +33,6 @@ switch ($_SERVER["REQUEST_METHOD"]) {
         $conn->close();
         break;
     case 'POST':
-
         if ($_POST['type'] == "update") {
             $nom  = $_POST['nom'];
             $prenom  = $_POST['prenom'];
@@ -51,7 +45,8 @@ switch ($_SERVER["REQUEST_METHOD"]) {
             } else {
                 echo "Error: " . $sql . "<br>" . $conn->error;
             }
-        } else if ($_POST['type'] == "create") {
+            $conn->close();
+        } else if ($_POST['type'] === "create") {
             $name  = $_POST['name'];
             $energy  = $_POST['energy'];
             $protein  = $_POST['protein'];
@@ -62,17 +57,38 @@ switch ($_SERVER["REQUEST_METHOD"]) {
             $saturatedFat = $_POST['saturatedFat'];
             $cholesterol = $_POST['cholesterol'];
             $salt = $_POST['salt'];
-            $check = "SELECT * FROM personne WHERE name='$name'";
+            $nutrients = [$energy,$protein,$glucid,$lipid,$sugar,$fibre,$saturatedFat,$cholesterol,$salt];
+            for ($i=0;$i< sizeof($nutrients);$i++){
+                if (!$nutrients[$i]){
+                    $nutrients[$i]=0;
+                }
+            }
+            $check = "SELECT * FROM foods WHERE name='$name'";
             $result = mysqli_query($conn, $check);
-
             if (mysqli_num_rows($result) > 0) {
-                echo 0;
+                echo mysqli_fetch_array($result)[0];
             } else {
-                $sql    = "INSERT INTO foods (name) values ('$name')  ";
-                if ($conn->query($sql) === TRUE) {
-                    echo "Food added successfully";
+                echo nl2br("Create food into foods table \n");
+                $addFoodSql    = "INSERT INTO foods (name) values ('$name')  ";
+                if ($conn->query($addFoodSql) == TRUE) {
+                    echo nl2br("Food added successfully \n");
+                    $getIdFood = "SELECT id FROM foods WHERE name='$name'";
+                    $food_id=mysqli_fetch_array(mysqli_query($conn, $getIdFood))[0];
+                    $indexNutrient = [5,8,9,10,11,12,13,14,15];
+                    for($i=0;$i< sizeof($indexNutrient);$i++){
+                        $addCompositionSql = "INSERT INTO composition (food_id, nutrient_id,value) values ($food_id, $indexNutrient[$i],$nutrients[$i])";
+                        if ($conn->query($addCompositionSql) == TRUE){
+                            echo nl2br("Composition added successfully \n");
+                        }
+                        else {
+                            echo "Error: " . $sql . "<br>" . $conn->error;
+                        }
+                    }
                 } else {
-                    echo "Error: " . $sql . "<br>" . $conn->error;
+                    echo "Error: " . $sql . "<br>
+            $result = mysqli_query($conn, $check);
+            if (mysqli_num_rows($result) > 0) {
+                echo mysqli_fetch_array($result)[0];" . $conn->error;
                 }
             }
         } else if ($_POST['type'] == "eaten") {
@@ -100,7 +116,13 @@ switch ($_SERVER["REQUEST_METHOD"]) {
             } else {
                 echo "error";
             }
-        } else if ($_POST['type'] == "newEaten") {
+        } else if ($_POST['type'] == "getFood"){
+            $id = $_POST['id'];
+            $sql = "SELECT nutrient_id, value FROM composition WHERE food_id='$id'";
+            $result = mysqli_query($conn, $sql);
+            echo json_encode(mysqli_fetch_assoc($result));
+        }
+         else if ($_POST['type'] == "newEaten") {
             $name = $_POST['food'];
             $id = $_POST['id'];
             $number = $_POST['number'];
